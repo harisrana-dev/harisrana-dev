@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 export function RevealObserver() {
   useEffect(() => {
-    const elements = document.querySelectorAll<HTMLElement>('[data-reveal]')
+    const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .section-heading.reveal')
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
