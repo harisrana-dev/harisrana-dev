@@ -4,7 +4,7 @@
 
 <br>
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=3000&pause=1200&color=6E93C4&center=true&vCenter=true&width=600&lines=Digital+Twin+Systems;Vehicle+Telemetry+%2B+Fleet+Analytics;Real-Time+Backend+Architecture;Computer+Vision+%2B+Physics-Based+Simulation)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=3000&pause=1200&color=6E93C4&center=true&vCenter=true&width=650&lines=Digital+Twin+Architecture;Fleet+Intelligence+%2B+Vehicle+Telemetry;Retrieval-Augmented+Knowledge+Systems;Real-Time+Backend+%2B+Computer+Vision)](https://git.io/typing-svg)
 
 <br>
 
@@ -15,12 +15,15 @@
 
 </div>
 
+<br>
 
-## Who I Am
+## Engineering Narrative
 
-I'm a Computer Science student building software at the boundary between data and physical machines. My focus is **digital twin architecture** — systems that model vehicles, drivers, and fleets closely enough that decisions made in software hold up against reality.
+I build software that has to answer to the physical world. Not dashboards that describe machines after the fact — live models that stay honest to what a vehicle, a driver, or a document collection is actually doing right now, and that hold up when a decision gets made on top of them.
 
-I lead **DriveVitals**, a fleet intelligence platform, as project lead and lead engineer for a team of three. Outside of that, I work on computer vision and backend-heavy systems that share the same underlying interest: turning raw signal into a working model of something physical.
+That's the thread connecting everything below. **DriveVitals** models fleets as digital twins so operational decisions are grounded in simulated reality rather than stale reports. The **AI Knowledge Platform** does the same thing for engineering knowledge — instead of a static wiki, it's a retrieval system that stays synchronized with what I actually build and can answer questions about it. Different domains, same discipline: define the state, model it faithfully, and let intelligence sit on top of a foundation that won't lie to you.
+
+I care more about whether a system's architecture will still make sense a year from now than whether it demos well today. SOLID principles, dependency injection, and modular boundaries aren't checkboxes — they're what let three people work on DriveVitals without stepping on each other, and what let the Knowledge Platform's ingestion, retrieval, and generation layers evolve independently.
 
 <br>
 
@@ -30,52 +33,95 @@ I lead **DriveVitals**, a fleet intelligence platform, as project lead and lead 
 
 | Layer | What happens here |
 |:---:|:---|
-| **Physical World** | Vehicles, drivers, roads, mechanical wear |
+| **Physical / Knowledge Source** | Vehicles, drivers, roads, mechanical wear · Engineering notes, commits, documents |
 | ↓ | |
-| **Sensors / Telemetry** | Speed, RPM, load, temperature, driver inputs |
+| **Signal Capture** | Telemetry: speed, RPM, load, temperature · Ingestion: chunking, embeddings, commit activity |
 | ↓ | |
-| **Digital Twin** | Live software model of vehicle + driver state |
+| **Modeling Layer** | Digital twin state (vehicle + driver) · Vector index (semantic document space) |
 | ↓ | |
-| **AI / Analytics** | Behavior scoring, health scoring, anomaly detection |
+| **Intelligence Layer** | Behavior scoring, health scoring, anomaly detection · Context-aware retrieval + generation |
 | ↓ | |
-| **Fleet Intelligence** | Decisions: maintenance, safety, efficiency |
+| **Decision Output** | Maintenance, safety, efficiency actions | Answers grounded in real engineering history |
 
 </div>
 
 <br>
 
-## Flagship Project
+## Flagship Projects
 
-<div align="center">
+### DriveVitals — Fleet Intelligence & Digital Twin Platform
 
-<table>
-<tr>
-<td width="100%">
+DriveVitals doesn't display vehicle data after the fact — it runs a live digital twin of every vehicle and driver in a fleet, then pushes that twin through an analytics layer to produce decisions a fleet manager can act on immediately.
 
-### DriveVitals
-**AI-Powered Fleet Intelligence & Digital Twin Platform**
+**Engineering problem:** commercial fleet operators make maintenance, safety, and efficiency decisions on stale, aggregated reports. The gap between what's happening on the road and what's visible to a dispatcher is the problem.
 
-DriveVitals doesn't just display vehicle data — it maintains a live digital twin of each vehicle and driver, then runs that twin through an analytics layer to produce decision-ready fleet intelligence.
+**Approach:** a simulation runtime maintains per-vehicle and per-driver state as a digital twin — physics-based vehicle behavior, driver decision modeling, and telemetry generation — decoupled from the analytics and presentation layers so each can evolve independently.
 
-**What it models:** vehicle state & health · driver behavior · fuel efficiency · fleet-wide operational status
+```mermaid
+flowchart TD
+    A[Vehicle & Driver State] --> B[Digital Twin Runtime]
+    B --> C[Telemetry Generator]
+    C --> D[FastAPI + WebSocket Gateway]
+    D --> E[PostgreSQL Data Layer]
+    D --> F[Real-Time Analytics Engine]
+    F --> F1[Driver Behavior Scoring]
+    F --> F2[Vehicle Health Scoring]
+    F --> F3[Fuel Efficiency Analysis]
+    D --> G[React Monitoring Dashboard]
+    F --> G
+    E --> H[Historical Fleet Analytics]
+```
 
-**Architecture I designed and lead:** digital twin execution pipeline · simulation runtime · manager & entity layer · analytics engine (driver behavior, vehicle health, fuel efficiency) · FastAPI + WebSocket backend · PostgreSQL data layer
+**Architecture decisions:**
+- Modular backend (Python, FastAPI, WebSockets, PostgreSQL) separating simulation, analytics, and API layers
+- Relational data model covering fleet operations, historical telemetry, trip management, driver performance, and vehicle health — designed with headroom for predictive maintenance features
+- SOLID principles and dependency injection throughout, so OBD-II hardware integration and ML-based scoring can be added without touching the simulation core
+- Feature-branch Git workflow with reviewed PRs and controlled integration, run across a team of three developers I lead
 
-**Built with:** `Python` `FastAPI` `WebSockets` `React` `PostgreSQL` `SQLAlchemy` `Pydantic`
+**Outcome:** a functioning digital twin runtime with real-time telemetry streaming, live analytics, and a monitoring dashboard — architected from the start to absorb real OBD-II hardware and predictive-maintenance models as the next milestone.
 
-I lead a team of three developers on this project — architecture decisions, milestone planning, and code review, through a standard feature-branch workflow.
+`Python` `FastAPI` `WebSockets` `React` `PostgreSQL` `SQLAlchemy` `Pydantic`
 
 **[→ View Repository](https://github.com/harisrana-dev/DriveVitals)**
 
-</td>
-</tr>
-</table>
+<br>
 
-</div>
+### AI Knowledge Platform — RAG Over a Living Engineering Knowledge Base
+
+A retrieval-augmented system that turns a personal Obsidian vault and live GitHub activity into a queryable engineering brain — answers stay grounded in what I've actually built, not in a generic model's memory.
+
+**Engineering problem:** engineering knowledge decays the moment it's written down. Notes go stale, context gets lost across projects, and a static wiki doesn't know what changed last week.
+
+**Approach:** an ingestion pipeline chunks and embeds documents into a vector index; a commit watcher converts ongoing GitHub activity into structured notes and writes them back into the vault automatically, so the knowledge base updates itself as the underlying projects move.
+
+```mermaid
+flowchart TD
+    A[Obsidian Vault] --> B[Document Chunking]
+    B --> C[Embedding Pipeline]
+    C --> D[Vector Index / Vector Search]
+    E[GitHub Commit Activity] --> F[Commit Watcher]
+    F --> G[Structured Engineering Notes]
+    G --> A
+    D --> H[Retriever]
+    H --> I[Groq API — Generation]
+    I --> J[Context-Aware Response]
+    H -.context.-> I
+```
+
+**Architecture decisions:**
+- Clean separation of ingestion, indexing, retrieval, and generation, deliberately built for multi-model extensibility rather than locked to one provider
+- Automated commit-to-notes pipeline closes the loop between "what I built" and "what the system knows," instead of relying on manual documentation
+- Vector search over chunked embeddings keeps retrieval grounded and context-aware rather than relying on generation alone
+
+**Outcome:** a self-updating knowledge system where engineering questions about my own projects get answered from real project history, not from an LLM's general priors.
+
+`Python` `Streamlit` `Groq API` `RAG` `Vector Search`
+
+**[→ View Repository](https://github.com/harisrana-dev/ai-knowledge-platform)**
 
 <br>
 
-## Selected Engineering Work
+## Supporting Projects
 
 <table>
 <tr>
@@ -83,18 +129,82 @@ I lead a team of three developers on this project — architecture decisions, mi
 
 **Smart Door Security System**
 
-Real-time facial recognition access control with head-pose-based liveness detection and randomized directional prompts to defeat spoofing attempts. Optimized for CPU-only, asynchronous real-time inference with frame-skipping.
+**Problem:** consumer-grade facial recognition access control is trivially spoofed with a photo.
+**Approach:** real-time facial authentication pipeline (detection → encoding → recognition) combined with head-pose-based liveness verification using randomized prompts, plus GPIO door control with a PIN fallback and event logging — optimized for CPU-only, frame-skipped asynchronous inference on a Raspberry Pi.
 
-`Python` `OpenCV` `NumPy` `Computer Vision`
+`Python` `OpenCV` `Raspberry Pi` `NumPy` `Computer Vision`
 
 </td>
 <td width="50%" valign="top">
 
 **Vehicle Service Workshop Management Database**
 
-A normalized relational database for vehicle service operations — customer records, repair history, scheduling, and reporting — built around data integrity and optimized SQL.
+**Problem:** workshop operations (customers, vehicles, repairs, inventory, payments) break down without a properly normalized data model.
+**Approach:** relational schema normalized through 1NF–3NF with foreign-key constraints and indexing strategy, plus SQL views and reports supporting service history and workshop analytics.
 
 `SQL` `MySQL` `Database Design` `Relational Modeling`
+
+</td>
+</tr>
+</table>
+
+<br>
+
+## Engineering Principles
+
+- **Model the world before optimizing it.** A dashboard, score, or prediction is only as trustworthy as the state model underneath it — get the model right first.
+- **Architecture is a team tool, not an aesthetic.** SOLID and modular boundaries exist so three engineers can move independently without corrupting each other's work.
+- **Real-time systems don't forgive patched-on discipline.** You can't retrofit a good state model onto a system that was never designed to hold one.
+- **Design for the next integration, not just the current feature.** DriveVitals' architecture assumes OBD-II and ML scoring before either exists; the Knowledge Platform assumes new models before they're added.
+- **Intelligence is only useful once it's connected back to reality.** A retrieval system that doesn't stay synced to real project history, or a twin that doesn't reflect real telemetry, is just a demo.
+
+<br>
+
+## Current Engineering Focus
+
+- [x] Digital twin runtime — simulation orchestration, vehicle control, driver decision-making
+- [x] FastAPI + WebSocket backend with PostgreSQL data layer for DriveVitals
+- [x] React-based real-time fleet monitoring dashboard
+- [x] RAG ingestion pipeline + automated commit-to-notes sync for AI Knowledge Platform
+- [ ] OBD-II hardware integration for live telemetry capture
+- [ ] Predictive maintenance models on top of DriveVitals' historical telemetry
+- [ ] Multi-model extensibility for the AI Knowledge Platform's generation layer
+- [ ] Edge-deployed inference for real-time computer vision workloads
+
+<br>
+
+## Featured Repositories
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**[DriveVitals](https://github.com/harisrana-dev/DriveVitals)**
+Digital twin and fleet intelligence platform — real-time vehicle/driver simulation, telemetry streaming, and analytics.
+`Python` `FastAPI` `WebSockets` `PostgreSQL` `React`
+
+</td>
+<td width="50%" valign="top">
+
+**[AI Knowledge Platform](https://github.com/harisrana-dev/ai-knowledge-platform)**
+RAG system over a self-updating Obsidian knowledge base, synced from live GitHub activity.
+`Python` `Streamlit` `Groq API` `RAG`
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**[Smart Door Security System](https://github.com/harisrana-dev)**
+Embedded facial-recognition access control with liveness detection on Raspberry Pi.
+`Python` `OpenCV` `Raspberry Pi`
+
+</td>
+<td width="50%" valign="top">
+
+**[Vehicle Service Workshop DB](https://github.com/harisrana-dev)**
+Normalized relational database and reporting layer for workshop operations.
+`SQL` `MySQL` `Database Design`
 
 </td>
 </tr>
@@ -106,49 +216,53 @@ A normalized relational database for vehicle service operations — customer rec
 
 <table>
 <tr>
-<td valign="top" width="33%">
+<td valign="top" width="25%">
 
-**Languages**
+**Core Engineering**
 
 ![Python](https://img.shields.io/badge/-Python-0d1117?style=flat-square&logo=python)
 ![C++](https://img.shields.io/badge/-C%2B%2B-0d1117?style=flat-square&logo=cplusplus)
-![SQL](https://img.shields.io/badge/-SQL-0d1117?style=flat-square&logo=postgresql)
-![JavaScript](https://img.shields.io/badge/-JavaScript-0d1117?style=flat-square&logo=javascript)
 ![Java](https://img.shields.io/badge/-Java-0d1117?style=flat-square&logo=openjdk)
+![TypeScript](https://img.shields.io/badge/-TypeScript-0d1117?style=flat-square&logo=typescript)
+![JavaScript](https://img.shields.io/badge/-JavaScript-0d1117?style=flat-square&logo=javascript)
 
-**Backend & APIs**
-
-![FastAPI](https://img.shields.io/badge/-FastAPI-0d1117?style=flat-square&logo=fastapi)
-![WebSockets](https://img.shields.io/badge/-WebSockets-0d1117?style=flat-square&logo=socketdotio)
-![Pydantic](https://img.shields.io/badge/-Pydantic-0d1117?style=flat-square&logo=pydantic)
+Algorithms · Data Structures · OOP · System Design
 
 </td>
-<td valign="top" width="33%">
+<td valign="top" width="25%">
 
-**Data & Databases**
-
-![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-0d1117?style=flat-square&logo=postgresql)
-![MySQL](https://img.shields.io/badge/-MySQL-0d1117?style=flat-square&logo=mysql)
-
-**AI & Computer Vision**
+**Intelligent Systems**
 
 ![OpenCV](https://img.shields.io/badge/-OpenCV-0d1117?style=flat-square&logo=opencv)
 ![NumPy](https://img.shields.io/badge/-NumPy-0d1117?style=flat-square&logo=numpy)
 ![Pandas](https://img.shields.io/badge/-Pandas-0d1117?style=flat-square&logo=pandas)
 
+RAG · Vector Search · LLM Integration · Computer Vision · Digital Twins · Vehicle Telemetry
+
 </td>
-<td valign="top" width="33%">
+<td valign="top" width="25%">
 
-**Systems & Tools**
+**Infrastructure**
 
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-0d1117?style=flat-square&logo=postgresql)
+![MySQL](https://img.shields.io/badge/-MySQL-0d1117?style=flat-square&logo=mysql)
 ![Docker](https://img.shields.io/badge/-Docker-0d1117?style=flat-square&logo=docker)
 ![Linux](https://img.shields.io/badge/-Linux-0d1117?style=flat-square&logo=linux)
-![Git](https://img.shields.io/badge/-Git-0d1117?style=flat-square&logo=git)
 ![Raspberry Pi](https://img.shields.io/badge/-Raspberry%20Pi-0d1117?style=flat-square&logo=raspberrypi)
 
-**Practice**
+Relational Modeling · Query Optimization · Embedded Deployment
 
-OOP · SOLID · Design Patterns · Dependency Injection · System Architecture · Agile
+</td>
+<td valign="top" width="25%">
+
+**Software Engineering**
+
+![FastAPI](https://img.shields.io/badge/-FastAPI-0d1117?style=flat-square&logo=fastapi)
+![WebSockets](https://img.shields.io/badge/-WebSockets-0d1117?style=flat-square&logo=socketdotio)
+![Pydantic](https://img.shields.io/badge/-Pydantic-0d1117?style=flat-square&logo=pydantic)
+![Git](https://img.shields.io/badge/-Git-0d1117?style=flat-square&logo=git)
+
+REST APIs · SOLID · Design Patterns · Dependency Injection · Agile
 
 </td>
 </tr>
@@ -156,31 +270,16 @@ OOP · SOLID · Design Patterns · Dependency Injection · System Architecture �
 
 <br>
 
-## Engineering Philosophy
-
-- Build systems, not isolated features — a dashboard is only as good as the model underneath it.
-- Model the real world before trying to optimize it.
-- Real-time systems demand architectural discipline; you can't patch your way out of a bad state model.
-- An intelligent system only matters once it's connected back to reality.
-
-<br>
-
 ## Research Direction
 
-`Predictive Vehicle Diagnostics` · `Digital Twin Simulation Fidelity` · `Real-Time Computer Vision` · `Edge Intelligence` · `Intelligent Automotive Systems`
-
-<br>
-
-## Currently
-
-Building out DriveVitals' digital twin and analytics layers, refining vehicle telemetry simulation, and going deeper on computer vision and scalable backend architecture.
+`Digital Twin Simulation Fidelity` · `Fleet Intelligence` · `Automotive AI` · `Predictive Vehicle Diagnostics` · `Predictive Maintenance` · `Edge AI` · `Real-Time Computer Vision` · `Intelligent Automotive Systems`
 
 <br>
 
 ## Education
 
 **BSCS**, University of Lahore — CGPA 3.66/4.00, expected June 2027
-**Elements of AI**, University of Helsinki — July 2025
+**Elements of AI**, University of Helsinki & MinnaLearn — July 2025
 
 <br>
 
