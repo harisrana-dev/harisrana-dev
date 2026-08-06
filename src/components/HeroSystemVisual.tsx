@@ -1,5 +1,5 @@
 export function HeroSystemVisual() {
-  return <aside className="hero-system" aria-label="AI telemetry digital twin physical system visualization">
+  return <aside className="hero-system" role="img" aria-label="AI telemetry digital twin physical system visualization">
     <div className="hero-system-grid" />
     <p className="system-caption cap-ai">AI / INFERENCE</p><i className="system-node ai-node" />
     <span className="system-link link-a" /><p className="system-caption cap-telemetry">TELEMETRY</p><i className="system-node telemetry-node" />

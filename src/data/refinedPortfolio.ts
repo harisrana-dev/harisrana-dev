@@ -1,4 +1,110 @@
 export const navItems = [['Work', '#work'], ['Tools', '#tools'], ['Experience', '#experience'], ['Research', '#research'], ['Contact', '#contact']]
+
+// ---------------------------------------------------------------------------
+// Shared content types. New components (ProjectActions, ProjectMetrics) consume
+// these so project data stays declarative and reusable.
+// ---------------------------------------------------------------------------
+
+export type ProjectActionKind = 'github' | 'demo' | 'architecture' | 'documentation' | 'case-study'
+
+export type ProjectAction = {
+  kind: ProjectActionKind
+  /** Overrides the default per-kind label. */
+  label?: string
+  /** External URL. Omit while the action does not exist yet. */
+  href?: string
+  /** Set to false to intentionally hide an action (e.g. demo/case study pending). */
+  available?: boolean
+}
+
+export type ProjectMetric = {
+  /** Short display value, e.g. "08" or "MIT". Must reflect a real, verifiable number. */
+  value: string
+  label: string
+}
+
+export type Project = {
+  id: string
+  eyebrow: string
+  title: string
+  subtitle: string
+  description: string
+  detail?: string
+  tech: string[]
+  metrics?: ProjectMetric[]
+  actions: ProjectAction[]
+  layout: 'feature' | 'compact' | 'workshop'
+  /** Visual diagram shown inside compact project cards. */
+  visual?: 'vision'
+}
+
+// Metric values below are derived from the public DriveVitals repository
+// (github.com/harisrana-dev/DriveVitals) and must stay consistent with it.
+export const projects: Project[] = [
+  {
+    id: 'drivevitals',
+    eyebrow: 'Project Lead & Software Engineer / July 2026 - Present',
+    title: 'DriveVitals',
+    subtitle: 'Vehicle Intelligence & Digital Twin Platform',
+    description: 'DriveVitals is an AI-powered Fleet Intelligence and Digital Twin platform for simulating commercial fleet operations, vehicle telemetry, driver behaviour, and predictive fleet analytics.',
+    detail: 'Architected the backend, digital twin execution pipeline, simulation runtime, fleet management systems, telemetry generation, analytics integration, Version 1 APIs, and PostgreSQL data model. Future architecture includes OBD-II integration and machine learning models.',
+    tech: ['Python', 'FastAPI', 'React', 'REST APIs', 'WebSockets', 'PostgreSQL', 'SQLAlchemy', 'Pydantic', 'Digital Twins', 'Fleet Analytics', 'Physics Simulation', 'Machine Learning'],
+    metrics: [
+      { value: '03', label: 'Developers led' },
+      { value: '08', label: 'Domain entities' },
+      { value: '05', label: 'Physics modules' },
+      { value: '11', label: 'Analytics modules' },
+      { value: 'MIT', label: 'License' },
+    ],
+    actions: [
+      { kind: 'github', href: 'https://github.com/harisrana-dev/DriveVitals' },
+      { kind: 'architecture', href: 'https://github.com/harisrana-dev/DriveVitals/blob/main/README.md#6-architecture-diagram' },
+      // TODO: add the live demo URL here once a deployment is available
+      { kind: 'demo', available: false },
+      // TODO: add the case study URL here once published
+      { kind: 'case-study', available: false },
+    ],
+    layout: 'feature',
+  },
+  {
+    id: 'smart-door',
+    eyebrow: 'Computer vision access control',
+    title: 'Smart Door Security System',
+    subtitle: 'Facial recognition access control',
+    description: 'A real-time facial recognition security system built with Python and OpenCV for automated identity verification and physical access control.',
+    tech: ['Python', 'OpenCV', 'Computer Vision'],
+    actions: [
+      { kind: 'github', href: 'https://github.com/harisrana-dev/Smart-Door-Security-System' },
+      // TODO: add the case study URL here once published
+      { kind: 'case-study', available: false },
+    ],
+    layout: 'compact',
+    visual: 'vision',
+  },
+  {
+    id: 'workshop',
+    eyebrow: 'Relational database system',
+    title: 'Vehicle Service Workshop Database',
+    subtitle: 'Relational database for service operations',
+    description: 'Managing service operations, customer records, repair history, maintenance workflows, scheduling, reporting, and optimized queries.',
+    tech: ['SQL', 'MySQL', 'Database Design'],
+    actions: [
+      { kind: 'github', href: 'https://github.com/harisrana-dev/vehicle-workshop-database' },
+    ],
+    layout: 'workshop',
+  },
+]
+
+export const about = {
+  eyebrow: 'About',
+  title: 'Focused on the space where software meets machines.',
+  copy: 'Engineering interests across artificial intelligence, automotive intelligence, digital twins, computer vision, and real-time systems.',
+  facts: [
+    { label: 'Degree', value: 'BSc Computer Science' },
+    { label: 'University', value: 'The University of Lahore' },
+    { label: 'Graduation', value: 'June 2027' },
+  ],
+} as const
 export const domains = [
   { number: '01', label: 'Artificial Intelligence', value: 'Machine Learning / Computer Vision' },
   { number: '02', label: 'Automotive Intelligence', value: 'Vehicle Telemetry / Fleet Systems' },
