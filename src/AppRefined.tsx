@@ -14,7 +14,7 @@ import { SectionHeading } from './components/SectionHeading'
 import { SecurityVisual } from './components/SecurityVisual'
 import { TechnicalVisual } from './components/TechnicalVisual'
 import { WorkshopVisual } from './components/WorkshopVisual'
-import { capabilities, domains, faq, journey, projects, research } from './data/refinedPortfolio'
+import { capabilities, domains, faq, journey, practice, projects, research } from './data/refinedPortfolio'
 import type { ProjectVisualKind } from './data/refinedPortfolio'
 
 const PROJECT_VISUALS: Record<ProjectVisualKind, ComponentType> = {
@@ -36,9 +36,12 @@ function AppRefined() {
     <AboutSection />
     <section id="work" className="work shell"><SectionHeading label="01 / Selected work" title="Systems built with a view beyond the screen." copy="Self-initiated engineering projects exploring how software can understand, model, and interact with physical systems." />
       {projects.filter(p => p.layout === 'feature').map(p => <article className="project feature" data-reveal key={p.id}><div className="project-copy"><p className="eyebrow">{p.eyebrow}</p><h3>{p.title}</h3><h4>{p.subtitle}</h4><p>{p.description}</p>{p.detail && <p className="project-detail">{p.detail}</p>}<ul>{p.tech.map(x => <li key={x}>{x}</li>)}</ul><ProjectMetrics metrics={p.metrics} /><ProjectActions actions={p.actions} /></div>{p.visual && <ProjectVisual kind={p.visual} />}{p.caseStudy && <CaseStudy blocks={p.caseStudy} id={p.id} />}</article>)}
-      <div className="project-grid project-grid-three">
-        {projects.filter(p => p.layout === 'compact' || p.layout === 'workshop').map(p => <article className={'project compact ' + p.layout} data-reveal key={p.id}><div><p className="eyebrow">{p.eyebrow}</p><h3>{p.title}</h3><p>{p.description}</p>{p.visual && <div className="project-mini"><ProjectVisual kind={p.visual} /></div>}</div><div className="project-footer"><span>{p.tech.join(' / ')}</span><ProjectActions actions={p.actions} /></div>{p.caseStudy && <CaseStudy blocks={p.caseStudy} id={p.id} />}</article>)}
-        <article className="project future" data-reveal><p className="eyebrow">Engineering practice</p><h3>Built with systems thinking.</h3><p>Leading the DriveVitals team with milestone planning, pull requests, reviews, feature branches, and controlled merges.</p><div className="orbital-mark">+</div></article>
+      <div className="practice" data-reveal>
+        <span className="practice-label">Engineering practice</span>
+        <div className="practice-items">{practice.map(item => <div className="practice-item" key={item.number}><span className="practice-item-label"><b>{item.number}</b><strong>{item.label}</strong></span><em>{item.text}</em></div>)}</div>
+      </div>
+      <div className="project-grid">
+        {projects.filter(p => p.layout === 'compact' || p.layout === 'workshop').map(p => <article className={'project compact' + (p.layout === 'workshop' ? ' workshop' : '')} data-reveal key={p.id}><div><p className="eyebrow">{p.eyebrow}</p><h3>{p.title}</h3><p>{p.description}</p>{p.visual && <div className="project-mini"><ProjectVisual kind={p.visual} /></div>}</div><div className="project-footer"><span>{p.tech.join(' / ')}</span><ProjectActions actions={p.actions} /></div>{p.caseStudy && <CaseStudy blocks={p.caseStudy} id={p.id} />}</article>)}
       </div>
     </section>
     <section id="tools" className="tools shell"><SectionHeading label="02 / Capabilities" title="Tools for building intelligent systems" /><div className="capability-grid capability-grid-refined">{capabilities.map((cap, index) => <article className="capability" data-reveal key={cap.title}><span>0{index + 1}</span><TechnicalVisual kind={cap.visual} label={cap.title} /><h3>{cap.title}</h3><div>{cap.items.map(item => <p key={item}>{item}</p>)}</div></article>)}</div></section>

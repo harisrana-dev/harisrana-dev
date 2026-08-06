@@ -318,10 +318,6 @@ export const projects: Project[] = [
     visual: 'security',
     caseStudy: [
       {
-        kind: 'summary',
-        text: 'An end-to-end access-control prototype that combines face recognition, randomized head-pose liveness verification, and a PIN fallback on a Raspberry Pi. A PIR sensor wakes the camera, OpenCV detects and tracks the face, face_recognition matches the identity, and dlib verifies the person is live before the relay unlocks the door.',
-      },
-      {
         kind: 'problem',
         statement: 'Keys and static passwords are easy to lose, copy, or misuse, and they verify nothing about a real human presence.',
         why: 'A photo or a screen can defeat naive face recognition; the system must prove a live person is present before unlocking.',
@@ -329,7 +325,7 @@ export const projects: Project[] = [
       },
       {
         kind: 'pipeline',
-        title: 'Recognition pipeline',
+        title: 'Implementation',
         steps: [
           { label: 'PIR motion', note: 'wakes the camera' },
           { label: 'Detection & tracking', note: 'OpenCV' },
@@ -382,10 +378,6 @@ export const projects: Project[] = [
     visual: 'workshop',
     caseStudy: [
       {
-        kind: 'summary',
-        text: 'A normalized relational model for a vehicle service workshop that keeps customers, vehicles, repair history, parts, and mechanics in one schema, with views and queries that answer the operational questions a workshop actually asks.',
-      },
-      {
         kind: 'problem',
         statement: 'Workshops manage customers, vehicles, repairs, and maintenance history with ad-hoc records and spreadsheets that fragment the picture of a vehicle\'s service life.',
         why: 'Without a joined record of history, workshops re-diagnose the same problems and cannot report reliably on revenue, workload, or vehicle condition.',
@@ -393,7 +385,7 @@ export const projects: Project[] = [
       },
       {
         kind: 'workflow',
-        title: 'What the schema supports',
+        title: 'Implementation',
         steps: [
           'Customers and vehicles are linked so service history follows the vehicle, not the customer.',
           'Service orders reference the mechanics, services, and parts involved, so every repair leaves a complete record.',
@@ -439,6 +431,12 @@ export const domains = [
   { number: '03', label: 'Digital Twin Systems', value: 'Simulation / Physical System Modeling' },
   { number: '04', label: 'Real-Time Engineering', value: 'Streaming / WebSockets / Event-Driven Systems' },
 ]
+export const practice = [
+  { number: '01', label: 'System Design', text: 'Architecture decisions and trade-offs' },
+  { number: '02', label: 'Version Control', text: 'Branches, commits, reviews' },
+  { number: '03', label: 'Documentation', text: 'Technical notes and knowledge capture' },
+  { number: '04', label: 'Iterative Delivery', text: 'Milestones and controlled releases' },
+] as const
 export const capabilities = [
   { title: 'Artificial Intelligence & Computer Vision', visual: 'vision', items: ['Machine Learning', 'Computer Vision', 'OpenCV', 'Facial Recognition', 'Liveness Detection', 'Predictive Modeling'] },
   { title: 'Automotive Intelligence & Digital Twins', visual: 'vehicle', items: ['Vehicle Telemetry', 'Digital Twin Systems', 'Fleet Analytics', 'Physics-Based Simulation', 'Vehicle Control', 'Predictive Maintenance Architecture'] },
