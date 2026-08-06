@@ -1,0 +1,24 @@
+export function WorkshopVisual() {
+  return <div className="workshop-visual" role="img" aria-label="Vehicle service workshop information system: customers, vehicles, and inventory link through repair orders into a SQL database serving a dashboard and reports">
+    <div className="eng-grid" />
+    <p className="ws-title">SERVICE / INFO SYSTEM</p>
+    <p className="ws-status">SCHEMA <b>NORMALIZED</b></p>
+    <div className="eng-node ws-customer"><small>ENTITY</small><b>CUSTOMER</b></div>
+    <div className="eng-node ws-vehicle"><small>ENTITY</small><b>VEHICLE</b></div>
+    <div className="eng-node ws-inventory"><small>ENTITY</small><b>INVENTORY</b></div>
+    <div className="eng-node ws-order hot"><small>LINK</small><b>REPAIR ORDER</b></div>
+    <div className="eng-node ws-db"><small>RELATIONAL</small><b>DATABASE</b><em>SQL</em></div>
+    <div className="eng-node ws-dash"><small>VIEW</small><b>DASHBOARD</b></div>
+    <div className="eng-node ws-reports"><small>VIEW</small><b>REPORTS</b></div>
+    <em className="ws-rel rel-1">1:N</em>
+    <em className="ws-rel rel-2">1:N</em>
+    <em className="ws-rel rel-3">1:N</em>
+    <div className="eng-rail ws-rail-1"><b /></div>
+    <div className="eng-rail ws-rail-2"><b /></div>
+    <div className="eng-rail ws-rail-3"><b /></div>
+    <div className="eng-rail ws-rail-4"><b /></div>
+    <div className="eng-rail ws-rail-5"><b /></div>
+    <div className="eng-rail ws-rail-6"><b /></div>
+    <em className="ws-cue cue-query">QUERY</em>
+  </div>
+}

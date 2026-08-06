@@ -1,15 +1,33 @@
 import { ArrowDownRight, ArrowUpRight, Code2, Download, Mail, Network, Phone } from 'lucide-react'
+import type { ComponentType } from 'react'
 import { AboutSection } from './components/AboutSection'
+import { CaseStudy } from './components/CaseStudy'
+import { DriveVitalsVisual } from './components/DriveVitalsVisual'
 import { FaqItem } from './components/FaqItem'
 import { HeaderRefined } from './components/HeaderRefined'
+import { HeroSystemVisual } from './components/HeroSystemVisual'
+import { KnowledgeVisual } from './components/KnowledgeVisual'
 import { ProjectActions } from './components/ProjectActions'
 import { ProjectMetrics } from './components/ProjectMetrics'
 import { RevealObserver } from './components/RevealObserver'
 import { SectionHeading } from './components/SectionHeading'
+import { SecurityVisual } from './components/SecurityVisual'
 import { TechnicalVisual } from './components/TechnicalVisual'
-import { DriveVitalsVisual } from './components/DriveVitalsVisual'
-import { HeroSystemVisual } from './components/HeroSystemVisual'
+import { WorkshopVisual } from './components/WorkshopVisual'
 import { capabilities, domains, faq, journey, projects, research } from './data/refinedPortfolio'
+import type { ProjectVisualKind } from './data/refinedPortfolio'
+
+const PROJECT_VISUALS: Record<ProjectVisualKind, ComponentType> = {
+  drivevitals: DriveVitalsVisual,
+  knowledge: KnowledgeVisual,
+  security: SecurityVisual,
+  workshop: WorkshopVisual,
+}
+
+function ProjectVisual({ kind }: { kind: ProjectVisualKind }) {
+  const Visual = PROJECT_VISUALS[kind]
+  return <Visual />
+}
 
 function AppRefined() {
   return <><a className="skip-link" href="#main">Skip to content</a><RevealObserver /><div id="top" /><HeaderRefined /><main id="main">
@@ -17,9 +35,9 @@ function AppRefined() {
     <section className="credibility shell"><div className="domain-list domain-list-four">{domains.map(d => <div className="domain" data-reveal key={d.number}><span>{d.number}</span><div><p>{d.label}</p><strong>{d.value}</strong></div></div>)}</div></section>
     <AboutSection />
     <section id="work" className="work shell"><SectionHeading label="01 / Selected work" title="Systems built with a view beyond the screen." copy="Self-initiated engineering projects exploring how software can understand, model, and interact with physical systems." />
-      {projects.filter(p => p.layout === 'feature').map(p => <article className="project feature" data-reveal key={p.id}><div className="project-copy"><p className="eyebrow">{p.eyebrow}</p><h3>{p.title}</h3><h4>{p.subtitle}</h4><p>{p.description}</p>{p.detail && <p className="project-detail">{p.detail}</p>}<ul>{p.tech.map(x => <li key={x}>{x}</li>)}</ul><ProjectMetrics metrics={p.metrics} /><ProjectActions actions={p.actions} /></div><DriveVitalsVisual /></article>)}
+      {projects.filter(p => p.layout === 'feature').map(p => <article className="project feature" data-reveal key={p.id}><div className="project-copy"><p className="eyebrow">{p.eyebrow}</p><h3>{p.title}</h3><h4>{p.subtitle}</h4><p>{p.description}</p>{p.detail && <p className="project-detail">{p.detail}</p>}<ul>{p.tech.map(x => <li key={x}>{x}</li>)}</ul><ProjectMetrics metrics={p.metrics} /><ProjectActions actions={p.actions} /></div>{p.visual && <ProjectVisual kind={p.visual} />}{p.caseStudy && <CaseStudy blocks={p.caseStudy} id={p.id} />}</article>)}
       <div className="project-grid project-grid-three">
-        {projects.filter(p => p.layout === 'compact' || p.layout === 'workshop').map(p => <article className={'project compact ' + p.layout} data-reveal key={p.id}><div><p className="eyebrow">{p.eyebrow}</p><h3>{p.title}</h3><p>{p.description}</p>{p.visual && <div className="project-mini"><TechnicalVisual kind={p.visual} label={p.subtitle} /></div>}</div><div className="project-footer"><span>{p.tech.join(' / ')}</span><ProjectActions actions={p.actions} /></div></article>)}
+        {projects.filter(p => p.layout === 'compact' || p.layout === 'workshop').map(p => <article className={'project compact ' + p.layout} data-reveal key={p.id}><div><p className="eyebrow">{p.eyebrow}</p><h3>{p.title}</h3><p>{p.description}</p>{p.visual && <div className="project-mini"><ProjectVisual kind={p.visual} /></div>}</div><div className="project-footer"><span>{p.tech.join(' / ')}</span><ProjectActions actions={p.actions} /></div>{p.caseStudy && <CaseStudy blocks={p.caseStudy} id={p.id} />}</article>)}
         <article className="project future" data-reveal><p className="eyebrow">Engineering practice</p><h3>Built with systems thinking.</h3><p>Leading the DriveVitals team with milestone planning, pull requests, reviews, feature branches, and controlled merges.</p><div className="orbital-mark">+</div></article>
       </div>
     </section>
