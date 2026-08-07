@@ -4,6 +4,7 @@ import App from './AppRefined'
 import './styles.css'
 import './refined.css'
 import './visual-system.css'
+import './visual-motion.css'
 
 // Reveal-hidden states are scoped under .js so the page stays readable
 // if JavaScript fails to load.

@@ -27,8 +27,15 @@ export function RevealObserver() {
       ticking = true
       requestAnimationFrame(() => { revealInView(); ticking = false })
     }
-    elements.forEach((element, index) => {
-      element.style.setProperty('--reveal-delay', `${Math.min((index % 5) * 70, 280)}ms`)
+    // Stagger per section, not globally: every section heading leads at 0ms and
+    // its items cascade in document order, so each section reads as its own
+    // choreographed sequence as it enters the viewport.
+    const sectionCounters = new Map<Element, number>()
+    elements.forEach((element) => {
+      const group = element.closest('section') ?? element.parentElement ?? element
+      const index = sectionCounters.get(group) ?? 0
+      sectionCounters.set(group, index + 1)
+      element.style.setProperty('--reveal-delay', `${Math.min(index * 80, 400)}ms`)
       observer.observe(element)
     })
     window.addEventListener('scroll', onScroll, { passive: true })

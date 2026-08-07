@@ -1,0 +1,547 @@
+/* ===========================================================================
+   Motion layer — data-flow choreography for engineering visuals.
+   Animations use transform / opacity / background-position only (GPU friendly).
+   =========================================================================== */
+
+/* ---- Live status dot with ping ring ------------------------------------- */
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--lime);
+  flex: none;
+}
+.live-dot:before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(204, 255, 61, 0.7);
+  animation: ringPing 2.2s ease-out infinite;
+}
+.drive-status,
+.kn-status,
+.sd-status,
+.ws-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+@keyframes ringPing {
+  0% { transform: scale(0.5); opacity: 0.9; }
+  70%, 100% { transform: scale(1.7); opacity: 0; }
+}
+
+/* ---- Node depth + intentional hover -------------------------------------- */
+.eng-node,
+.dv-stage,
+.module,
+.system-core {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+}
+.eng-node,
+.dv-stage,
+.module {
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.eng-node:hover,
+.module:hover {
+  border-color: #a5c43a;
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(165, 196, 58, 0.25), 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+.dv-stage:hover {
+  border-color: #a5c43a;
+  transform: translateX(-50%) translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(165, 196, 58, 0.25), 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+/* ---- Processing wave (opacity-only radial glow, staggered via --fd) ------ */
+.flow {
+  animation-delay: var(--fd, 0s);
+}
+.flow:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(204, 255, 61, 0.2), transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+  animation: nodeFlow var(--flow-speed, 4.5s) ease-in-out infinite;
+  animation-delay: var(--fd, 0s);
+}
+@keyframes nodeFlow {
+  0%, 100% { opacity: 0; }
+  10% { opacity: 1; }
+  34% { opacity: 0; }
+}
+
+/* ---- Flowing dashed edges (background-position, tiny paint) -------------- */
+.dv-rail,
+.eng-rail,
+.system-link,
+.sd-pin,
+.kn-loop {
+  background-image: linear-gradient(180deg, rgba(165, 196, 58, 0.75) 52%, transparent 48%);
+  background-size: 1px 9px;
+  background-repeat: repeat-y;
+  animation: dashDown 1.1s linear infinite;
+}
+@keyframes dashDown {
+  to { background-position: 0 9px; }
+}
+.telemetry-rail,
+.sd-rail-log {
+  background-image: linear-gradient(90deg, rgba(141, 160, 148, 0.85) 52%, transparent 48%);
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+  animation: dashAcross 1s linear infinite;
+}
+@keyframes dashAcross {
+  to { background-position: 10px 0; }
+}
+.kn-loop,
+.sd-pin {
+  border-left: 0;
+}
+
+/* Shared sweeps + pulses */
+@keyframes scanSweep {
+  0% { transform: translateY(0); opacity: 0; }
+  4% { opacity: 0.35; }
+  96% { opacity: 0.35; }
+  100% { transform: translateY(480px); opacity: 0; }
+}
+@keyframes sweepAcross {
+  0% { transform: translateX(-120%); }
+  60%, 100% { transform: translateX(240%); }
+}
+@keyframes heartPing {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.55; }
+  70%, 100% { transform: translate(-50%, -50%) scale(1.22); opacity: 0; }
+}
+@keyframes meterPulse {
+  50% { transform: scaleY(0.3); }
+}
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+@keyframes valuePulse {
+  50% { opacity: 0.72; }
+}
+@keyframes accessPulse {
+  0%, 100% { border-color: #5f7a6d; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28); }
+  45%, 65% { border-color: #b7e052; box-shadow: 0 0 0 1px rgba(183, 224, 82, 0.35), 0 0 18px rgba(204, 255, 61, 0.35); }
+}
+@keyframes activeGlow {
+  50% { box-shadow: 0 0 0 1px rgba(204, 255, 61, 0.4), 0 0 16px rgba(204, 255, 61, 0.35); }
+}
+
+/* ===========================================================================
+   DriveVitals — flagship: live readouts, processing wave, heartbeat, scan
+   =========================================================================== */
+.drive-visual .flow { --flow-speed: 3s; }
+.stage-api { --fd: 0s; }
+.stage-ana { --fd: 0.75s; }
+.stage-ws { --fd: 1.5s; }
+.stage-ui { --fd: 2.25s; }
+
+.dv-readout {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 8.5%;
+  display: flex;
+  background: rgba(10, 18, 14, 0.55);
+  border: 1px solid #3a4f45;
+  padding: 3px 6px;
+  white-space: nowrap;
+}
+.dv-readout span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border-right: 1px solid #3a4f45;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: #9aaca2;
+}
+.dv-readout span:last-child { border-right: 0; }
+.dv-readout b {
+  color: var(--lime);
+  font-weight: 500;
+  font-size: 8px;
+  min-width: 24px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dv-fleet {
+  position: absolute;
+  left: 6%;
+  bottom: 11%;
+  display: flex;
+  background: rgba(10, 18, 14, 0.55);
+  border: 1px solid #3a4f45;
+  padding: 3px 6px;
+  white-space: nowrap;
+}
+.dv-fleet span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border-right: 1px solid #3a4f45;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: #9aaca2;
+}
+.dv-fleet span:last-child { border-right: 0; }
+.dv-fleet b {
+  color: var(--lime);
+  font-weight: 500;
+  font-size: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.dv-meter {
+  position: absolute;
+  right: 7%;
+  bottom: 13%;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 10px;
+}
+.dv-meter i {
+  width: 3px;
+  background: var(--lime);
+  opacity: 0.5;
+  transform-origin: bottom;
+  animation: meterPulse 1.1s ease-in-out infinite;
+}
+.dv-meter i:nth-child(1) { height: 4px; }
+.dv-meter i:nth-child(2) { height: 7px; animation-delay: -0.25s; }
+.dv-meter i:nth-child(3) { height: 10px; animation-delay: -0.5s; }
+.dv-meter i:nth-child(4) { height: 6px; animation-delay: -0.75s; }
+.dv-meter i:nth-child(5) { height: 8px; animation-delay: -1s; }
+
+.dv-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(204, 255, 61, 0.4), transparent);
+  opacity: 0;
+  animation: scanSweep 7s linear infinite;
+}
+
+.twin-core:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 96%;
+  height: 96%;
+  border: 1px solid rgba(183, 224, 82, 0.4);
+  opacity: 0;
+  animation: heartPing 3s ease-out infinite;
+}
+
+.analytics-core {
+  overflow: hidden;
+}
+.analytics-core:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, rgba(204, 255, 61, 0.14), transparent);
+  transform: translateX(-120%);
+  animation: sweepAcross 4s ease-in-out infinite;
+}
+
+/* Hover a stage -> its data rail lights up */
+.twin-core:hover ~ .rail-core,
+.stage-api:hover ~ .rail-api,
+.stage-ana:hover ~ .rail-ana,
+.stage-ws:hover ~ .rail-ws,
+.stage-ui:hover ~ .rail-ui {
+  background-color: #a5c43a;
+  opacity: 1;
+}
+.twin-core:hover ~ .rail-core b,
+.stage-api:hover ~ .rail-api b,
+.stage-ana:hover ~ .rail-ana b,
+.stage-ws:hover ~ .rail-ws b,
+.stage-ui:hover ~ .rail-ui b {
+  animation-duration: 0.9s;
+}
+
+/* ===========================================================================
+   AI Knowledge Platform — indexing wave, vector search ring, sync loop
+   =========================================================================== */
+.kn-vault { --fd: 0s; }
+.kn-loader { --fd: 0.4s; }
+.kn-chunk { --fd: 0.8s; }
+.kn-embed { --fd: 1.2s; }
+.kn-retr { --fd: 1.6s; }
+.kn-groq { --fd: 2s; }
+.kn-resp { --fd: 2.4s; }
+.kn-dev { --fd: 2.8s; }
+.kn-git { --fd: 1.2s; }
+.kn-watch { --fd: 1.6s; }
+.kn-docs { --fd: 2s; }
+.kn-kb { --fd: 2.4s; }
+
+.kn-ring {
+  position: absolute;
+  inset: -7px;
+  border: 1px dashed rgba(183, 224, 82, 0.5);
+  border-radius: 4px;
+  opacity: 0.7;
+  animation: spinSlow 9s linear infinite;
+}
+
+.kn-converge {
+  overflow: hidden;
+}
+.kn-converge:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(204, 255, 61, 0.12), transparent);
+  transform: translateX(-120%);
+  animation: sweepAcross 3.6s ease-in-out infinite;
+}
+.kn-spinner {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  border: 1px solid rgba(183, 224, 82, 0.65);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spinSlow 1.3s linear infinite;
+}
+
+.kn-cue.cue-query,
+.ws-cue.cue-query {
+  animation: valuePulse 2.4s ease-in-out infinite;
+}
+
+/* ===========================================================================
+   Smart Door Security — camera scan, confidence bar, per-stage LEDs
+   =========================================================================== */
+.security-visual .flow { --flow-speed: 3s; }
+.sd-cam { --fd: 0s; }
+.sd-detect { --fd: 0.4s; }
+.sd-match { --fd: 0.8s; }
+.sd-decide { --fd: 1.2s; }
+.sd-door { --fd: 1.6s; }
+.sd-access { --fd: 2s; }
+
+.sd-cam {
+  overflow: hidden;
+}
+.sd-camscan {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 2px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ccff3d, transparent);
+  opacity: 0;
+  animation: camScan 2.4s ease-in-out infinite;
+}
+@keyframes camScan {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 0.9; }
+  50% { transform: translateY(18px); opacity: 0.6; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+.security-visual .eng-node:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #a5c43a;
+  box-shadow: 0 0 6px rgba(165, 196, 58, 0.8);
+  animation: ledBlink 2.4s ease-in-out infinite;
+  animation-delay: var(--fd, 0s);
+}
+@keyframes ledBlink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0.15; }
+}
+
+.sd-confidence {
+  position: absolute;
+  left: 66%;
+  top: 49.6%;
+  width: 26%;
+  height: 1px;
+  background: #3a4f45;
+}
+.sd-confidence:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  transform-origin: left;
+  animation: confFill 3s ease-in-out infinite;
+}
+@keyframes confFill {
+  0% { transform: scaleX(0.04); }
+  70% { transform: scaleX(0.98); }
+  100% { transform: scaleX(0.98); }
+}
+
+.sd-access {
+  animation: accessPulse 3.2s ease-in-out infinite;
+  animation-delay: var(--fd, 2s);
+}
+
+/* ===========================================================================
+   Workshop Database — relational flow, relationship pulses, hot node
+   =========================================================================== */
+.workshop-visual .flow { --flow-speed: 3s; }
+.ws-customer { --fd: 0s; }
+.ws-vehicle { --fd: 0.4s; }
+.ws-inventory { --fd: 0.8s; }
+.ws-order { --fd: 1.2s; }
+.ws-db { --fd: 1.6s; }
+.ws-dash { --fd: 2s; }
+.ws-reports { --fd: 2.4s; }
+
+.ws-order {
+  animation: accessPulse 3.2s ease-in-out infinite;
+  animation-delay: var(--fd, 1.2s);
+}
+
+.ws-rel {
+  animation: relPulse 2.6s ease-in-out infinite;
+}
+.rel-1 { animation-delay: 0s; }
+.rel-2 { animation-delay: -0.9s; }
+.rel-3 { animation-delay: -1.8s; }
+@keyframes relPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+/* ===========================================================================
+   Hero system — live tag, radar ring, value readouts
+   =========================================================================== */
+.system-live {
+  position: absolute;
+  right: 7%;
+  top: 7%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-style: normal;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: #92a49a;
+}
+.system-core:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 132px;
+  height: 132px;
+  margin: -66px 0 0 -66px;
+  border: 1px dashed #3d5349;
+  border-radius: 50%;
+  animation: spinSlow 20s linear infinite;
+  pointer-events: none;
+}
+.hero-value {
+  animation: valuePulse 3.4s ease-in-out infinite;
+}
+.v-rpm { animation-delay: -1.1s; }
+.v-temp { animation-delay: -2.2s; }
+
+/* ===========================================================================
+   Capability micro-visuals
+   =========================================================================== */
+.sensor {
+  animation: systemPulse 3.2s ease-in-out infinite;
+}
+.s1 { animation-delay: 0s; }
+.s2 { animation-delay: -1.1s; }
+.s3 { animation-delay: -2.2s; }
+
+.feature-point {
+  animation: valuePulse 2.8s ease-in-out infinite;
+}
+.p1 { animation-delay: 0s; }
+.p2 { animation-delay: -0.7s; }
+.p3 { animation-delay: -1.4s; }
+.p4 { animation-delay: -2.1s; }
+
+.pipeline-node.active {
+  animation: activeGlow 2.2s ease-in-out infinite;
+}
+
+/* ===========================================================================
+   Responsive — keep panels calm on small screens
+   =========================================================================== */
+@media (max-width: 640px) {
+  .dv-readout { top: 12.5%; }
+  .dv-readout span { padding: 0 5px; }
+  .dv-fleet,
+  .dv-meter { display: none; }
+  .system-core:after { display: none; }
+  .kn-ring { inset: -4px; }
+  .security-visual .eng-node:after { top: 2px; right: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot:before,
+  .flow:before,
+  .dv-scan,
+  .dv-meter i,
+  .twin-core:after,
+  .analytics-core:before,
+  .kn-ring,
+  .kn-spinner,
+  .kn-converge:before,
+  .sd-camscan,
+  .sd-confidence:before,
+  .security-visual .eng-node:after,
+  .ws-rel,
+  .sd-access,
+  .ws-order,
+  .hero-value,
+  .system-core:after,
+  .sensor,
+  .feature-point,
+  .pipeline-node.active {
+    animation: none !important;
+  }
+  .dv-readout,
+  .dv-fleet,
+  .dv-meter {
+    opacity: 1;
+  }
+}
+

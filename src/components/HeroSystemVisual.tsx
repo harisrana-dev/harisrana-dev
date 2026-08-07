@@ -1,6 +1,7 @@
 export function HeroSystemVisual() {
   return <aside className="hero-system" role="img" aria-label="AI telemetry digital twin physical system visualization">
     <div className="hero-system-grid" />
+    <p className="system-live"><span className="live-dot" aria-hidden="true" />LIVE</p>
     <p className="system-caption cap-ai">AI / INFERENCE</p><i className="system-node ai-node" />
     <span className="system-link link-a" /><p className="system-caption cap-telemetry">TELEMETRY</p><i className="system-node telemetry-node" />
     <span className="system-link link-b" /><div className="system-core"><b>SYSTEM</b><span>DIGITAL TWIN</span></div>
