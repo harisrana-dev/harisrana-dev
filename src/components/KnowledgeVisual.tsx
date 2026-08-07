@@ -1,5 +1,5 @@
 export function KnowledgeVisual() {
-  return <div className="knowledge-visual" role="img" aria-label="AI knowledge platform: retrieval pipeline from an Obsidian vault through document loading, chunking, embeddings, retrieval, the Groq API and response generation to a developer, converging with a Git commit watcher documentation loop back into the knowledge base">
+  return <div className="knowledge-visual" role="img" aria-label="AI knowledge platform: retrieval pipeline from an Obsidian vault through chunking, embeddings, retrieval, an LLM backend and response generation to a developer, converging with a git post-commit capture loop back into the knowledge base">
     <div className="eng-grid" />
     <p className="kn-title">KNOWLEDGE / RAG + DOCS LOOP</p>
     <p className="kn-status">SYNC LOOP <b>LIVE</b></p>
@@ -13,7 +13,7 @@ export function KnowledgeVisual() {
     <div className="eng-node kn-dev"><small>CONSUMER</small><b>DEVELOPER</b></div>
     <div className="eng-node kn-git"><small>SOURCE</small><b>GIT REPO</b><em>COMMITS</em></div>
     <div className="eng-node kn-watch"><small>HOOK</small><b>COMMIT WATCHER</b></div>
-    <div className="eng-node kn-docs"><small>GEN</small><b>AUTO DOCS</b></div>
+    <div className="eng-node kn-docs"><small>GEN</small><b>COMMIT NOTES</b></div>
     <div className="eng-node kn-kb"><small>TARGET</small><b>OBSIDIAN KB</b></div>
     <div className="kn-converge"><span>CONTINUOUS</span><b>EVOLVING KNOWLEDGE</b></div>
     <div className="eng-rail kn-rail-1"><b /></div>
