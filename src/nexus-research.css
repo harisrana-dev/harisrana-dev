@@ -18,6 +18,95 @@
   grid-column: 1;
 }
 
+/* ── Teaser (collapsed default view) ── */
+.nrx-teaser {
+  margin-bottom: 0;
+}
+.nrx-teaser-content h3 {
+  font: 500 32px/1.12 'Playfair Display', serif;
+  letter-spacing: -0.035em;
+  margin: 8px 0 16px;
+}
+.nrx-teaser-copy {
+  color: var(--muted-deep);
+  font-size: 14px;
+  max-width: 560px;
+  margin: 0 0 24px;
+}
+.nrx-teaser-preview {
+  margin: 20px 0 28px;
+  padding: 16px 20px;
+  background: #dde4da;
+  border: 1px solid #c6cec4;
+  display: inline-block;
+}
+.nrx-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 12px/1 'DM Mono', monospace;
+}
+.nrx-preview-label {
+  color: var(--muted-deep);
+}
+.nrx-preview-val {
+  font-weight: 700;
+}
+.nrx-preview-arrow {
+  color: var(--muted-deep);
+  margin: 0 2px;
+}
+.nrx-preview-degraded {
+  color: #c44;
+}
+.nrx-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 700 13px/1 Manrope, sans-serif;
+  letter-spacing: -0.01em;
+  padding: 14px 22px;
+  background: var(--dark);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.25s;
+}
+.nrx-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -12px rgba(20, 36, 31, 0.5);
+}
+.nrx-toggle-btn:focus-visible {
+  outline: 2px solid var(--lime-text);
+  outline-offset: 2px;
+}
+
+/* ── Expandable detail container ── */
+.nrx-detailed {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  overflow: hidden;
+}
+.nrx-detailed-open {
+  grid-template-rows: 1fr;
+}
+.nrx-detailed-inner {
+  overflow: hidden;
+}
+.nrx-detailed-open .nrx-detailed-inner {
+  padding-top: 48px;
+  border-top: 1px solid #c6cec4;
+  margin-top: 48px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .nrx-detailed {
+    transition-duration: 0.01ms;
+  }
+}
+
 /* ── Shared sub-heading ── */
 .nrx-sub {
   font: 500 22px/1.15 'Playfair Display', serif;
@@ -905,6 +994,13 @@
   .nrx-research {
     margin-top: 85px;
     padding-bottom: 85px;
+  }
+  .nrx-teaser-preview {
+    display: block;
+  }
+  .nrx-preview-row {
+    flex-wrap: wrap;
+    gap: 6px;
   }
   .nrx-meta-grid {
     grid-template-columns: 1fr;
