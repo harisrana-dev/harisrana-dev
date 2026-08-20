@@ -1,16 +1,25 @@
-# Haris Rana
+<div align="center">
 
-CS student building systems at the intersection of **software engineering**, **AI/information retrieval**, and **empirical evaluation** — with an emphasis on measuring what works.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,100:1e2a3a&height=180&section=header&text=HARIS%20KAMAL%20RANA&fontSize=38&fontColor=e6edf3&fontAlignY=40&desc=Building%20intelligent%20systems%20for%20the%20physical%20world&descAlignY=62&descSize=16&descColor=8b96a5&animation=fadeIn" width="100%"/>
+
+<br>
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=3000&pause=1200&color=6E93C4&center=true&vCenter=true&width=650&lines=Digital+Twin+Architecture;Fleet+Intelligence+%2B+Vehicle+Telemetry;Retrieval-Augmented+Knowledge+Systems;Real-Time+Backend+%2B+Computer+Vision)](https://git.io/typing-svg)
+
+<br>
 
 <a href="mailto:harriskamal23@gmail.com"><img src="https://img.shields.io/badge/Email-0d1117?style=for-the-badge&logo=gmail&logoColor=e6edf3" /></a>
 <a href="https://www.linkedin.com/in/hariskamalrana"><img src="https://img.shields.io/badge/LinkedIn-0d1117?style=for-the-badge&logo=linkedin&logoColor=e6edf3" /></a>
 <a href="https://harisrana-dev.vercel.app/"><img src="https://img.shields.io/badge/Portfolio-0d1117?style=for-the-badge&logo=vercel&logoColor=e6edf3" /></a>
+<a href="https://github.com/harisrana-dev/harisrana-dev/blob/dev/public/Haris-Kamal-Rana-CV.pdf"><img src="https://img.shields.io/badge/Resume-0d1117?style=for-the-badge&logo=readdotcv&logoColor=e6edf3" /></a>
 
----
+</div>
+
+<br>
 
 ## About
 
-I build systems that rely on faithful representation of the world — whether that's a fleet's true operational state or what an information-retrieval system can actually find and rank. My focus is on:
+CS student building systems at the intersection of **software engineering**, **AI/information retrieval**, and **empirical evaluation** — with an emphasis on measuring what works.
 
 - **Rigorous system design:** Architecture that holds up under real constraints (SOLID, DI, testability)
 - **Empirical measurement:** Not assuming what works — building instruments to measure it (IR evaluation, statistical testing, ablation studies)
@@ -22,11 +31,52 @@ I build systems that rely on faithful representation of the world — whether th
 
 ---
 
+## Flagship Project — DriveVitals
+
+**Fleet Intelligence & Digital Twin Platform — the project I built to solve real operational problems.**
+
+DriveVitals doesn't display vehicle data after the fact — it runs a live digital twin of every vehicle and driver in a fleet, then pushes that twin through an analytics layer to produce decisions a fleet manager can act on immediately.
+
+**Engineering problem:** commercial fleet operators make maintenance, safety, and efficiency decisions on stale, aggregated reports. The gap between what's happening on the road and what's visible to a dispatcher is the problem.
+
+**Approach:** a simulation runtime maintains per-vehicle and per-driver state as a digital twin — physics-based vehicle behavior, driver decision modeling, and telemetry generation — decoupled from the analytics and presentation layers so each can evolve independently.
+
+```mermaid
+flowchart TD
+    A[Vehicle & Driver State] --> B[Digital Twin Runtime]
+    B --> C[Telemetry Generator]
+    C --> D[FastAPI + WebSocket Gateway]
+    D --> E[PostgreSQL Data Layer]
+    D --> F[Real-Time Analytics Engine]
+    F --> F1[Driver Behavior Scoring]
+    F --> F2[Vehicle Health Scoring]
+    F --> F3[Fuel Efficiency Analysis]
+    D --> G[React Monitoring Dashboard]
+    F --> G
+    E --> H[Historical Fleet Analytics]
+```
+
+**Architecture decisions:**
+- Modular backend (Python, FastAPI, WebSockets, PostgreSQL) separating simulation, analytics, and API layers
+- Relational data model covering fleet operations, historical telemetry, trip management, driver performance, and vehicle health — designed with headroom for predictive maintenance features
+- SOLID principles and dependency injection throughout, so OBD-II hardware integration and ML-based scoring can be added without touching the simulation core
+- Feature-branch Git workflow with reviewed PRs and controlled integration, run across a team of three developers I lead
+
+**Outcome:** a functioning digital twin runtime with real-time telemetry streaming, live analytics, and a monitoring dashboard — architected from the start to absorb real OBD-II hardware and predictive-maintenance models as the next milestone.
+
+`Python` `FastAPI` `WebSockets` `React` `PostgreSQL` `SQLAlchemy` `Pydantic`
+
+**[→ View Repository](https://github.com/harisrana-dev/DriveVitals)**
+
+<br>
+
+---
+
 ## Featured Project — Nexus
 
-**Local-first knowledge and Information Retrieval system for engineering teams.**
+**Local-first AI knowledge and Information Retrieval system for engineering teams.**
 
-Nexus combines personal knowledge ingestion (Obsidian markdown), Git-aware development history capture, hybrid retrieval (semantic + lexical with RRF fusion), grounded RAG, and **reproducible empirical retrieval evaluation** — all running locally and offline-first.
+Nexus turns personal knowledge (Obsidian vaults, Git activity, engineering documentation) into a continuously searchable knowledge base — with hybrid retrieval grounded in empirical evaluation.
 
 **Why it matters:** Retrieval quality must be measured to be trusted. Nexus includes a research-oriented evaluation laboratory (109 documents, 1,857 chunks, 218 queries across 6 categories) with statistical testing, ablation studies, and honest reporting of negative findings.
 
@@ -65,43 +115,57 @@ Counter to the graph-RAG hypothesis, expansion reduced NDCG@5 from 0.498 to 0.46
 
 ---
 
-## Other Projects
+## Supporting Projects
 
-### DriveVitals — Fleet Intelligence & Digital Twin Platform
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Live digital twin simulation of vehicles and drivers, with real-time analytics and monitoring dashboard. Models fleet operations as continuous state (physics-based vehicle behavior, driver decision modeling) separate from analytics and presentation layers — enabling independent evolution of each layer.
+**[Smart Door Security System](https://github.com/harisrana-dev)**
 
-**Architecture:** Python simulation runtime → FastAPI + WebSocket gateway → PostgreSQL data layer → React dashboard. Fully modular with SOLID principles and dependency injection; designed to absorb OBD-II hardware and predictive-maintenance ML models as next milestone.
+Embedded facial authentication pipeline (detection → encoding → recognition) with liveness verification via head-pose analysis and randomized prompts. GPIO door control with PIN fallback and event logging — optimized for CPU-only, frame-skipped inference on a Raspberry Pi.
 
-`Python` `FastAPI` `WebSockets` `React` `PostgreSQL` · [Repository](https://github.com/harisrana-dev/DriveVitals)
+`Python` `OpenCV` `Raspberry Pi` `Computer Vision`
 
-### Smart Door Security System
+</td>
+<td width="50%" valign="top">
 
-Embedded facial authentication (detection → encoding → recognition) with liveness verification via head-pose analysis and randomized prompts. GPIO door control with PIN fallback and event logging — fully CPU-only and frame-skipped on Raspberry Pi.
+**[Vehicle Service Workshop Database](https://github.com/harisrana-dev)**
 
-`Python` `OpenCV` `Raspberry Pi` · [Repository](https://github.com/harisrana-dev)
+Normalized relational schema (1NF–3NF) for workshop operations: customers, vehicles, repairs, inventory, payments. SQL views and reports supporting service history and workshop analytics.
 
-### Vehicle Service Workshop Database
+`SQL` `MySQL` `Database Design`
 
-Normalized relational schema (1NF–3NF) for workshop operations: customers, vehicles, repairs, inventory, payments. SQL views and reports for service history and workshop analytics.
-
-`SQL` `MySQL` · [Repository](https://github.com/harisrana-dev)
+</td>
+</tr>
+</table>
 
 <br>
 
 ---
 
-## Research & Technical Interests
+## Engineering Principles
 
-Building systems requires understanding what they can and cannot do. My focus areas:
+- **Model the world before optimizing it.** A dashboard, score, or prediction is only as trustworthy as the state model underneath it — get the model right first.
+- **Architecture is a team tool, not an aesthetic.** SOLID and modular boundaries exist so three engineers can move independently without corrupting each other's work.
+- **Real-time systems don't forgive patched-on discipline.** You can't retrofit a good state model onto a system that was never designed to hold one.
+- **Design for the next integration, not just the current feature.** DriveVitals' architecture assumes OBD-II and ML scoring before either exists; Nexus assumes new models before they're added.
+- **Intelligence is only useful once it's connected back to reality.** A retrieval system that doesn't stay synced to real project history, or a twin that doesn't reflect real telemetry, is just a demo.
 
-- **Information Retrieval:** Hybrid retrieval strategies, ranking quality, embedding models, evaluation metrics, statistical testing
-- **Retrieval-Augmented Generation (RAG):** Grounding LLM generation in retrieval results, context quality, source attribution, hallucination prevention
-- **Empirical Evaluation:** Designing retrieval benchmarks, ablation studies, reproducible experiments, honest reporting of limitations
-- **AI Systems:** Embedding quality, local-first execution, multi-provider LLM support, inference efficiency
-- **Software Engineering:** Modular architecture, concurrent/distributed safety, comprehensive testing, maintainability at scale
+<br>
 
-The common thread: **build systems that work in practice → measure them rigorously → understand their limits → improve them iteratively.**
+---
+
+## Current Engineering Focus
+
+- [x] Digital twin runtime — simulation orchestration, vehicle control, driver decision-making
+- [x] FastAPI + WebSocket backend with PostgreSQL data layer for DriveVitals
+- [x] React-based real-time fleet monitoring dashboard
+- [x] RAG ingestion pipeline + automated commit-to-notes sync for Nexus
+- [ ] OBD-II hardware integration for live telemetry capture
+- [ ] Predictive maintenance models on top of DriveVitals' historical telemetry
+- [ ] Multi-model extensibility for Nexus's generation layer
+- [ ] Edge-deployed inference for real-time computer vision workloads
 
 <br>
 
@@ -135,23 +199,26 @@ Real-Time Dashboards · Terminal UIs · Interactive Applications
 SOLID Principles · Dependency Injection · Testing · CI/CD · Reproducibility
 
 <br>
+
 ---
 
-## Current Focus
+## Research & Technical Interests
 
-Actively developing toward graduate-level Computer Science research, with emphasis on:
+Building systems requires understanding what they can and cannot do. My focus areas:
 
-- **Empirical retrieval evaluation:** Designing, running, and rigorously analyzing retrieval experiments — measuring before claiming
-- **Honest experimentation:** Measuring hypotheses, reporting negative results, documenting limitations and threats to validity
-- **Reproducible science:** Committed datasets, deterministic evaluation, transparent methodology
-- **Modular AI systems:** Building intelligence on solid architectural foundations that can be tested, modified, and improved independently
-- **Research discipline:** Statistical testing (Wilcoxon, bootstrap CIs), ablation studies, experimental controls, proper research documentation
+- **Information Retrieval:** Hybrid retrieval strategies, ranking quality, embedding models, evaluation metrics, statistical testing
+- **Retrieval-Augmented Generation (RAG):** Grounding LLM generation in retrieval results, context quality, source attribution, hallucination prevention
+- **Empirical Evaluation:** Designing retrieval benchmarks, ablation studies, reproducible experiments, honest reporting of limitations
+- **AI Systems:** Embedding quality, local-first execution, multi-provider LLM support, inference efficiency
+- **Software Engineering:** Modular architecture, concurrent/distributed safety, comprehensive testing, maintainability at scale
 
-The progression: build real systems → measure what actually works → understand why → improve systematically → document for others to build on.
+The common thread: **build systems that work in practice → measure them rigorously → understand their limits → improve them iteratively.**
 
 <br>
 
-## Education & Training
+---
+
+## Education
 
 **BSCS**, University of Lahore — CGPA 3.66/4.00, expected June 2027
 
@@ -161,9 +228,15 @@ The progression: build real systems → measure what actually works → understa
 
 ---
 
-## Connect
+<div align="center">
+
+### Get in Touch
 
 [![Email](https://img.shields.io/badge/harriskamal23@gmail.com-0d1117?style=flat-square&logo=gmail&logoColor=e6edf3)](mailto:harriskamal23@gmail.com)
 [![LinkedIn](https://img.shields.io/badge/hariskamalrana-0d1117?style=flat-square&logo=linkedin&logoColor=e6edf3)](https://www.linkedin.com/in/hariskamalrana)
 [![GitHub](https://img.shields.io/badge/harisrana--dev-0d1117?style=flat-square&logo=github&logoColor=e6edf3)](https://github.com/harisrana-dev)
 [![Portfolio](https://img.shields.io/badge/Portfolio-0d1117?style=flat-square&logo=vercel&logoColor=e6edf3)](https://harisrana-dev.vercel.app/)
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e2a3a,100:0d1117&height=100&section=footer" width="100%"/>
+
+</div>
