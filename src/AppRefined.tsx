@@ -12,9 +12,10 @@ import { ProjectMetrics } from './components/ProjectMetrics'
 import { RevealObserver } from './components/RevealObserver'
 import { SectionHeading } from './components/SectionHeading'
 import { SecurityVisual } from './components/SecurityVisual'
+import { NexusResearchSection } from './components/NexusResearchSection'
 import { TechnicalVisual } from './components/TechnicalVisual'
 import { WorkshopVisual } from './components/WorkshopVisual'
-import { capabilities, domains, faq, journey, practice, projects, research } from './data/refinedPortfolio'
+import { capabilities, domains, faq, journey, practice, projects } from './data/refinedPortfolio'
 import type { ProjectVisualKind } from './data/refinedPortfolio'
 
 const PROJECT_VISUALS: Record<ProjectVisualKind, ComponentType> = {
@@ -46,7 +47,7 @@ function AppRefined() {
     </section>
     <section id="tools" className="tools shell"><SectionHeading label="02 / Capabilities" title="Tools for building intelligent systems" /><div className="capability-grid capability-grid-refined">{capabilities.map((cap, index) => <article className="capability" data-reveal key={cap.title}><span>0{index + 1}</span><TechnicalVisual kind={cap.visual} label={cap.title} /><h3>{cap.title}</h3><div>{cap.items.map(item => <p key={item}>{item}</p>)}</div></article>)}</div></section>
     <section id="experience" className="experience shell"><SectionHeading label="03 / Journey" title="Learning to build for a world in motion." /><div className="timeline">{journey.map((item, i) => <article className="timeline-item" data-reveal key={item.date}><span>{item.date}</span><div><i>0{i + 1}</i><h3>{item.title}</h3><h4>{item.organization}</h4><p>{item.copy}</p></div></article>)}</div></section>
-    <section id="research" className="research shell"><SectionHeading label="04 / Research & thinking" title="Questions that lead the work." /><div className="research-list">{research.map(item => <article className="research-item" data-reveal key={item.number}><span>{item.number}</span><h3>{item.title}</h3><p>{item.copy}</p><ArrowUpRight size={19}/></article>)}</div></section>
+    <NexusResearchSection />
     <section className="faq shell"><SectionHeading label="05 / FAQ" title="A few useful answers." /><div className="faq-list">{faq.map(([q,a]) => <FaqItem key={q} question={q} answer={a} />)}</div></section>
     <section id="contact" className="contact"><div className="shell contact-inner"><p className="eyebrow">06 / Start a conversation</p><h2>Let's build something <em>intelligent.</em></h2><div className="contact-footer"><p>Interested in artificial intelligence, automotive intelligence, real-time systems, or the future of intelligent machines? I'm always open to meaningful conversations.</p><a className="button button-light" href="mailto:harriskamal23@gmail.com">Get in touch <ArrowUpRight size={18}/></a></div><div className="socials"><a href="mailto:harriskamal23@gmail.com"><Mail size={17}/> harriskamal23@gmail.com</a><a href="tel:+923098999565"><Phone size={17}/> +92 309 8999565</a><a href="https://www.linkedin.com/in/hariskamalrana" target="_blank" rel="noreferrer"><Network size={17}/> LinkedIn</a><a href="https://github.com/harisrana-dev" target="_blank" rel="noreferrer"><Code2 size={17}/> GitHub</a><a href="/Haris-Kamal-Rana-CV.pdf" download><Download size={17}/> Download CV</a></div></div></section>
   </main><footer className="shell"><span>Haris Kamal Rana</span><span>AI / Automotive Intelligence / Digital Twins</span><span>© {new Date().getFullYear()} / Haris Kamal Rana</span></footer></>
