@@ -1,297 +1,169 @@
-<div align="center">
+# Haris Rana
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,100:1e2a3a&height=180&section=header&text=HARIS%20KAMAL%20RANA&fontSize=38&fontColor=e6edf3&fontAlignY=40&desc=Building%20intelligent%20systems%20for%20the%20physical%20world&descAlignY=62&descSize=16&descColor=8b96a5&animation=fadeIn" width="100%"/>
-
-<br>
-
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=3000&pause=1200&color=6E93C4&center=true&vCenter=true&width=650&lines=Digital+Twin+Architecture;Fleet+Intelligence+%2B+Vehicle+Telemetry;Retrieval-Augmented+Knowledge+Systems;Real-Time+Backend+%2B+Computer+Vision)](https://git.io/typing-svg)
-
-<br>
+CS student building systems at the intersection of **software engineering**, **AI/information retrieval**, and **empirical evaluation** — with an emphasis on measuring what works.
 
 <a href="mailto:harriskamal23@gmail.com"><img src="https://img.shields.io/badge/Email-0d1117?style=for-the-badge&logo=gmail&logoColor=e6edf3" /></a>
 <a href="https://www.linkedin.com/in/hariskamalrana"><img src="https://img.shields.io/badge/LinkedIn-0d1117?style=for-the-badge&logo=linkedin&logoColor=e6edf3" /></a>
 <a href="https://harisrana-dev.vercel.app/"><img src="https://img.shields.io/badge/Portfolio-0d1117?style=for-the-badge&logo=vercel&logoColor=e6edf3" /></a>
-<a href="https://github.com/harisrana-dev/harisrana-dev/blob/dev/public/Haris-Kamal-Rana-CV.pdf"><img src="https://img.shields.io/badge/Resume-0d1117?style=for-the-badge&logo=readdotcv&logoColor=e6edf3" /></a>
 
-</div>
+---
 
-<br>
+## About
 
-## Engineering Narrative
+I build systems that rely on faithful representation of the world — whether that's a fleet's true operational state or what an information-retrieval system can actually find and rank. My focus is on:
 
-I build software that has to answer to the physical world. Not dashboards that describe machines after the fact — live models that stay honest to what a vehicle, a driver, or a document collection is actually doing right now, and that hold up when a decision gets made on top of them.
-
-That's the thread connecting everything below. **DriveVitals** models fleets as digital twins so operational decisions are grounded in simulated reality rather than stale reports. The **AI Knowledge Platform** does the same thing for engineering knowledge — instead of a static wiki, it's a retrieval system that stays synchronized with what I actually build and can answer questions about it. Different domains, same discipline: define the state, model it faithfully, and let intelligence sit on top of a foundation that won't lie to you.
-
-I care more about whether a system's architecture will still make sense a year from now than whether it demos well today. SOLID principles, dependency injection, and modular boundaries aren't checkboxes — they're what let three people work on DriveVitals without stepping on each other, and what let the Knowledge Platform's ingestion, retrieval, and generation layers evolve independently.
-
-<br>
-
-## Systems I Build
-
-<div align="center">
-
-| Layer | What happens here |
-|:---:|:---|
-| **Physical / Knowledge Source** | Vehicles, drivers, roads, mechanical wear · Engineering notes, commits, documents |
-| ↓ | |
-| **Signal Capture** | Telemetry: speed, RPM, load, temperature · Ingestion: chunking, embeddings, commit activity |
-| ↓ | |
-| **Modeling Layer** | Digital twin state (vehicle + driver) · Vector index (semantic document space) |
-| ↓ | |
-| **Intelligence Layer** | Behavior scoring, health scoring, anomaly detection · Context-aware retrieval + generation |
-| ↓ | |
-| **Decision Output** | Maintenance, safety, efficiency actions | Answers grounded in real engineering history |
-
-</div>
+- **Rigorous system design:** Architecture that holds up under real constraints (SOLID, DI, testability)
+- **Empirical measurement:** Not assuming what works — building instruments to measure it (IR evaluation, statistical testing, ablation studies)
+- **Honest reporting:** When a hypothesis fails, analyze why and document it (graph-RAG negative result, threats to validity)
+- **Software engineering discipline:** Modular boundaries, automated testing (430+ tests), concurrency safety, reproducibility
+- **Information Retrieval:** Hybrid retrieval, ranking, RAG grounding, evaluation methodology — building retrieval systems that must be measured to be trusted
 
 <br>
 
-## Flagship Projects
+---
+
+## Featured Project — Nexus
+
+**Local-first knowledge and Information Retrieval system for engineering teams.**
+
+Nexus combines personal knowledge ingestion (Obsidian markdown), Git-aware development history capture, hybrid retrieval (semantic + lexical with RRF fusion), grounded RAG, and **reproducible empirical retrieval evaluation** — all running locally and offline-first.
+
+**Why it matters:** Retrieval quality must be measured to be trusted. Nexus includes a research-oriented evaluation laboratory (109 documents, 1,857 chunks, 218 queries across 6 categories) with statistical testing, ablation studies, and honest reporting of negative findings.
+
+### Key Capabilities
+
+- **Hybrid retrieval:** Semantic vector search (MiniLM ONNX) fused with punctuation-tolerant lexical matching via Reciprocal Rank Fusion — significantly outperforms either strategy alone (NDCG@5: 0.498 vs 0.418/0.415, Wilcoxon p<0.001)
+- **Git-aware indexing:** Post-commit hook captures commits, generates summaries, writes them back to vault, indexes automatically — knowledge base self-updates
+- **Empirical evaluation:** RRF K ablation (K ∈ [5, 200], stable), chunk-size ablation (precision/recall tradeoff), graph-RAG experiment with controlled negative result, human evaluation framework
+- **Grounded RAG:** Context construction with source attribution, explicit anti-hallucination rules, multiple LLM providers (Ollama local, Groq/OpenRouter cloud)
+- **Reproducible science:** All experiments runnable from committed artifacts; deterministic evaluation; documented limitations and threats to validity
+- **Interfaces:** Textual terminal TUI (slash commands, history), Streamlit web UI, asynchronous background operations
+- **Engineering rigor:** 430+ automated tests (fully offline, no API calls), file-lock safety, dependency injection, modular architecture
+
+### Research Findings
+
+**Finding 1 — Hybrid RRF significantly outperforms individual strategies.**
+Semantic and lexical retrieval each achieve NDCG@5 of ~0.42. Hybrid fusion reaches 0.498 — a 19% improvement. Improvement over semantic is statistically significant (Wilcoxon p<0.001).
+
+**Finding 2 — RRF constant K is stable.**
+Performance remains consistent across K ∈ [5, 200]; production default K=60 is near-optimal.
+
+**Finding 3 — Graph augmentation via wikilinks degrades retrieval.**
+Counter to the graph-RAG hypothesis, expansion reduced NDCG@5 from 0.498 to 0.467 (p<0.001). Analysis shows sparse connectivity (93 links / 109 docs), navigational vs semantic mismatch, and controlled ablation confirms monotonic degradation. This negative result demonstrates rigorous experimental discipline — measure a hypothesis and report what you find, even when it's unfavorable.
+
+**Limitations:** Synthetic query generation may introduce term-overlap bias; single embedding model; relatively small corpus; sparse Wikilink graph; incomplete human relevance annotations.
+
+### Repository & Documentation
+
+- **Code:** https://github.com/harisrana-dev/nexus
+- **Research paper:** [docs/paper/phase3-ir-evaluation.md](https://github.com/harisrana-dev/nexus/blob/main/docs/paper/phase3-ir-evaluation.md)
+- **Evaluation artifacts:** Committed datasets, results, figures, full reproducibility instructions
+
+`Python` `FastAPI` `Streamlit` `Textual` `RAG` `Information Retrieval` `ONNX` `Embedding` `RRF` `Statistical Testing` `Empirical Evaluation`
+
+<br>
+
+---
+
+## Other Projects
 
 ### DriveVitals — Fleet Intelligence & Digital Twin Platform
 
-DriveVitals doesn't display vehicle data after the fact — it runs a live digital twin of every vehicle and driver in a fleet, then pushes that twin through an analytics layer to produce decisions a fleet manager can act on immediately.
+Live digital twin simulation of vehicles and drivers, with real-time analytics and monitoring dashboard. Models fleet operations as continuous state (physics-based vehicle behavior, driver decision modeling) separate from analytics and presentation layers — enabling independent evolution of each layer.
 
-**Engineering problem:** commercial fleet operators make maintenance, safety, and efficiency decisions on stale, aggregated reports. The gap between what's happening on the road and what's visible to a dispatcher is the problem.
+**Architecture:** Python simulation runtime → FastAPI + WebSocket gateway → PostgreSQL data layer → React dashboard. Fully modular with SOLID principles and dependency injection; designed to absorb OBD-II hardware and predictive-maintenance ML models as next milestone.
 
-**Approach:** a simulation runtime maintains per-vehicle and per-driver state as a digital twin — physics-based vehicle behavior, driver decision modeling, and telemetry generation — decoupled from the analytics and presentation layers so each can evolve independently.
+`Python` `FastAPI` `WebSockets` `React` `PostgreSQL` · [Repository](https://github.com/harisrana-dev/DriveVitals)
 
-```mermaid
-flowchart TD
-    A[Vehicle & Driver State] --> B[Digital Twin Runtime]
-    B --> C[Telemetry Generator]
-    C --> D[FastAPI + WebSocket Gateway]
-    D --> E[PostgreSQL Data Layer]
-    D --> F[Real-Time Analytics Engine]
-    F --> F1[Driver Behavior Scoring]
-    F --> F2[Vehicle Health Scoring]
-    F --> F3[Fuel Efficiency Analysis]
-    D --> G[React Monitoring Dashboard]
-    F --> G
-    E --> H[Historical Fleet Analytics]
-```
+### Smart Door Security System
 
-**Architecture decisions:**
-- Modular backend (Python, FastAPI, WebSockets, PostgreSQL) separating simulation, analytics, and API layers
-- Relational data model covering fleet operations, historical telemetry, trip management, driver performance, and vehicle health — designed with headroom for predictive maintenance features
-- SOLID principles and dependency injection throughout, so OBD-II hardware integration and ML-based scoring can be added without touching the simulation core
-- Feature-branch Git workflow with reviewed PRs and controlled integration, run across a team of three developers I lead
+Embedded facial authentication (detection → encoding → recognition) with liveness verification via head-pose analysis and randomized prompts. GPIO door control with PIN fallback and event logging — fully CPU-only and frame-skipped on Raspberry Pi.
 
-**Outcome:** a functioning digital twin runtime with real-time telemetry streaming, live analytics, and a monitoring dashboard — architected from the start to absorb real OBD-II hardware and predictive-maintenance models as the next milestone.
+`Python` `OpenCV` `Raspberry Pi` · [Repository](https://github.com/harisrana-dev)
 
-`Python` `FastAPI` `WebSockets` `React` `PostgreSQL` `SQLAlchemy` `Pydantic`
+### Vehicle Service Workshop Database
 
-**[→ View Repository](https://github.com/harisrana-dev/DriveVitals)**
+Normalized relational schema (1NF–3NF) for workshop operations: customers, vehicles, repairs, inventory, payments. SQL views and reports for service history and workshop analytics.
+
+`SQL` `MySQL` · [Repository](https://github.com/harisrana-dev)
 
 <br>
 
-### AI Knowledge Platform — RAG Over a Living Engineering Knowledge Base
+---
 
-A retrieval-augmented system that turns a personal Obsidian vault and live GitHub activity into a queryable engineering brain — answers stay grounded in what I've actually built, not in a generic model's memory.
+## Research & Technical Interests
 
-**Engineering problem:** engineering knowledge decays the moment it's written down. Notes go stale, context gets lost across projects, and a static wiki doesn't know what changed last week.
+Building systems requires understanding what they can and cannot do. My focus areas:
 
-**Approach:** an ingestion pipeline chunks and embeds documents into a vector index; a commit watcher converts ongoing GitHub activity into structured notes and writes them back into the vault automatically, so the knowledge base updates itself as the underlying projects move.
+- **Information Retrieval:** Hybrid retrieval strategies, ranking quality, embedding models, evaluation metrics, statistical testing
+- **Retrieval-Augmented Generation (RAG):** Grounding LLM generation in retrieval results, context quality, source attribution, hallucination prevention
+- **Empirical Evaluation:** Designing retrieval benchmarks, ablation studies, reproducible experiments, honest reporting of limitations
+- **AI Systems:** Embedding quality, local-first execution, multi-provider LLM support, inference efficiency
+- **Software Engineering:** Modular architecture, concurrent/distributed safety, comprehensive testing, maintainability at scale
 
-```mermaid
-flowchart TD
-    A[Obsidian Vault] --> B[Document Chunking]
-    B --> C[Embedding Pipeline]
-    C --> D[Vector Index / Vector Search]
-    E[GitHub Commit Activity] --> F[Commit Watcher]
-    F --> G[Structured Engineering Notes]
-    G --> A
-    D --> H[Retriever]
-    H --> I[Groq API — Generation]
-    I --> J[Context-Aware Response]
-    H -.context.-> I
-```
-
-**Architecture decisions:**
-- Clean separation of ingestion, indexing, retrieval, and generation, deliberately built for multi-model extensibility rather than locked to one provider
-- Automated commit-to-notes pipeline closes the loop between "what I built" and "what the system knows," instead of relying on manual documentation
-- Vector search over chunked embeddings keeps retrieval grounded and context-aware rather than relying on generation alone
-
-**Outcome:** a self-updating knowledge system where engineering questions about my own projects get answered from real project history, not from an LLM's general priors.
-
-`Python` `Streamlit` `Groq API` `RAG` `Vector Search`
-
-**[→ View Repository](https://github.com/harisrana-dev/ai-knowledge-platform)**
+The common thread: **build systems that work in practice → measure them rigorously → understand their limits → improve them iteratively.**
 
 <br>
 
-## Supporting Projects
+---
 
-<table>
-<tr>
-<td width="50%" valign="top">
+## Technical Stack
 
-**Smart Door Security System**
+### Languages & Core
+![Python](https://img.shields.io/badge/-Python-0d1117?style=flat-square&logo=python&logoColor=3776AB) ![C++](https://img.shields.io/badge/-C%2B%2B-0d1117?style=flat-square&logo=cplusplus&logoColor=00599C) ![TypeScript](https://img.shields.io/badge/-TypeScript-0d1117?style=flat-square&logo=typescript&logoColor=3178C6) ![JavaScript](https://img.shields.io/badge/-JavaScript-0d1117?style=flat-square&logo=javascript&logoColor=F7DF1E)
 
-**Problem:** consumer-grade facial recognition access control is trivially spoofed with a photo.
-**Approach:** real-time facial authentication pipeline (detection → encoding → recognition) combined with head-pose-based liveness verification using randomized prompts, plus GPIO door control with a PIN fallback and event logging — optimized for CPU-only, frame-skipped asynchronous inference on a Raspberry Pi.
+Algorithms · Data Structures · OOP · System Design · Software Architecture
 
-`Python` `OpenCV` `Raspberry Pi` `NumPy` `Computer Vision`
+### AI & Information Retrieval
+![RAG](https://img.shields.io/badge/-RAG-0d1117?style=flat-square) ![Vector Search](https://img.shields.io/badge/-Vector%20Search-0d1117?style=flat-square) ![Embeddings](https://img.shields.io/badge/-Embeddings-0d1117?style=flat-square) ![ONNX](https://img.shields.io/badge/-ONNX-0d1117?style=flat-square&logo=onnx)
 
-</td>
-<td width="50%" valign="top">
+Hybrid Retrieval · RRF Fusion · Ranking · LLM APIs · Grounding · Statistical Testing · Empirical Evaluation
 
-**Vehicle Service Workshop Management Database**
+### Backend & Data
+![FastAPI](https://img.shields.io/badge/-FastAPI-0d1117?style=flat-square&logo=fastapi&logoColor=009688) ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-0d1117?style=flat-square&logo=postgresql&logoColor=336791) ![SQLAlchemy](https://img.shields.io/badge/-SQLAlchemy-0d1117?style=flat-square) ![Chroma](https://img.shields.io/badge/-Chroma-0d1117?style=flat-square)
 
-**Problem:** workshop operations (customers, vehicles, repairs, inventory, payments) break down without a properly normalized data model.
-**Approach:** relational schema normalized through 1NF–3NF with foreign-key constraints and indexing strategy, plus SQL views and reports supporting service history and workshop analytics.
+REST APIs · WebSockets · Relational Modeling · Query Optimization · Vector Databases
 
-`SQL` `MySQL` `Database Design` `Relational Modeling`
+### Frontend & Interfaces
+![React](https://img.shields.io/badge/-React-0d1117?style=flat-square&logo=react&logoColor=61DAFB) ![Streamlit](https://img.shields.io/badge/-Streamlit-0d1117?style=flat-square&logo=streamlit&logoColor=FF6B6B) ![Textual](https://img.shields.io/badge/-Textual-0d1117?style=flat-square)
 
-</td>
-</tr>
-</table>
+Real-Time Dashboards · Terminal UIs · Interactive Applications
+
+### Engineering & DevOps
+![pytest](https://img.shields.io/badge/-pytest-0d1117?style=flat-square&logo=pytest&logoColor=0A9FDC) ![Ruff](https://img.shields.io/badge/-Ruff-0d1117?style=flat-square) ![Git](https://img.shields.io/badge/-Git-0d1117?style=flat-square&logo=git&logoColor=F05032) ![Linux](https://img.shields.io/badge/-Linux-0d1117?style=flat-square&logo=linux&logoColor=FCC624)
+
+SOLID Principles · Dependency Injection · Testing · CI/CD · Reproducibility
+
+<br>
+---
+
+## Current Focus
+
+Actively developing toward graduate-level Computer Science research, with emphasis on:
+
+- **Empirical retrieval evaluation:** Designing, running, and rigorously analyzing retrieval experiments — measuring before claiming
+- **Honest experimentation:** Measuring hypotheses, reporting negative results, documenting limitations and threats to validity
+- **Reproducible science:** Committed datasets, deterministic evaluation, transparent methodology
+- **Modular AI systems:** Building intelligence on solid architectural foundations that can be tested, modified, and improved independently
+- **Research discipline:** Statistical testing (Wilcoxon, bootstrap CIs), ablation studies, experimental controls, proper research documentation
+
+The progression: build real systems → measure what actually works → understand why → improve systematically → document for others to build on.
 
 <br>
 
-## Engineering Principles
-
-- **Model the world before optimizing it.** A dashboard, score, or prediction is only as trustworthy as the state model underneath it — get the model right first.
-- **Architecture is a team tool, not an aesthetic.** SOLID and modular boundaries exist so three engineers can move independently without corrupting each other's work.
-- **Real-time systems don't forgive patched-on discipline.** You can't retrofit a good state model onto a system that was never designed to hold one.
-- **Design for the next integration, not just the current feature.** DriveVitals' architecture assumes OBD-II and ML scoring before either exists; the Knowledge Platform assumes new models before they're added.
-- **Intelligence is only useful once it's connected back to reality.** A retrieval system that doesn't stay synced to real project history, or a twin that doesn't reflect real telemetry, is just a demo.
-
-<br>
-
-## Current Engineering Focus
-
-- [x] Digital twin runtime — simulation orchestration, vehicle control, driver decision-making
-- [x] FastAPI + WebSocket backend with PostgreSQL data layer for DriveVitals
-- [x] React-based real-time fleet monitoring dashboard
-- [x] RAG ingestion pipeline + automated commit-to-notes sync for AI Knowledge Platform
-- [ ] OBD-II hardware integration for live telemetry capture
-- [ ] Predictive maintenance models on top of DriveVitals' historical telemetry
-- [ ] Multi-model extensibility for the AI Knowledge Platform's generation layer
-- [ ] Edge-deployed inference for real-time computer vision workloads
-
-<br>
-
-## Featured Repositories
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-**[DriveVitals](https://github.com/harisrana-dev/DriveVitals)**
-Digital twin and fleet intelligence platform — real-time vehicle/driver simulation, telemetry streaming, and analytics.
-`Python` `FastAPI` `WebSockets` `PostgreSQL` `React`
-
-</td>
-<td width="50%" valign="top">
-
-**[AI Knowledge Platform](https://github.com/harisrana-dev/ai-knowledge-platform)**
-RAG system over a self-updating Obsidian knowledge base, synced from live GitHub activity.
-`Python` `Streamlit` `Groq API` `RAG`
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**[Smart Door Security System](https://github.com/harisrana-dev)**
-Embedded facial-recognition access control with liveness detection on Raspberry Pi.
-`Python` `OpenCV` `Raspberry Pi`
-
-</td>
-<td width="50%" valign="top">
-
-**[Vehicle Service Workshop DB](https://github.com/harisrana-dev)**
-Normalized relational database and reporting layer for workshop operations.
-`SQL` `MySQL` `Database Design`
-
-</td>
-</tr>
-</table>
-
-<br>
-
-## Technical Capabilities
-
-<table>
-<tr>
-<td valign="top" width="25%">
-
-**Core Engineering**
-
-![Python](https://img.shields.io/badge/-Python-0d1117?style=flat-square&logo=python)
-![C++](https://img.shields.io/badge/-C%2B%2B-0d1117?style=flat-square&logo=cplusplus)
-![Java](https://img.shields.io/badge/-Java-0d1117?style=flat-square&logo=openjdk)
-![TypeScript](https://img.shields.io/badge/-TypeScript-0d1117?style=flat-square&logo=typescript)
-![JavaScript](https://img.shields.io/badge/-JavaScript-0d1117?style=flat-square&logo=javascript)
-
-Algorithms · Data Structures · OOP · System Design
-
-</td>
-<td valign="top" width="25%">
-
-**Intelligent Systems**
-
-![OpenCV](https://img.shields.io/badge/-OpenCV-0d1117?style=flat-square&logo=opencv)
-![NumPy](https://img.shields.io/badge/-NumPy-0d1117?style=flat-square&logo=numpy)
-![Pandas](https://img.shields.io/badge/-Pandas-0d1117?style=flat-square&logo=pandas)
-
-RAG · Vector Search · LLM Integration · Computer Vision · Digital Twins · Vehicle Telemetry
-
-</td>
-<td valign="top" width="25%">
-
-**Infrastructure**
-
-![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-0d1117?style=flat-square&logo=postgresql)
-![MySQL](https://img.shields.io/badge/-MySQL-0d1117?style=flat-square&logo=mysql)
-![Docker](https://img.shields.io/badge/-Docker-0d1117?style=flat-square&logo=docker)
-![Linux](https://img.shields.io/badge/-Linux-0d1117?style=flat-square&logo=linux)
-![Raspberry Pi](https://img.shields.io/badge/-Raspberry%20Pi-0d1117?style=flat-square&logo=raspberrypi)
-
-Relational Modeling · Query Optimization · Embedded Deployment
-
-</td>
-<td valign="top" width="25%">
-
-**Software Engineering**
-
-![FastAPI](https://img.shields.io/badge/-FastAPI-0d1117?style=flat-square&logo=fastapi)
-![WebSockets](https://img.shields.io/badge/-WebSockets-0d1117?style=flat-square&logo=socketdotio)
-![Pydantic](https://img.shields.io/badge/-Pydantic-0d1117?style=flat-square&logo=pydantic)
-![Git](https://img.shields.io/badge/-Git-0d1117?style=flat-square&logo=git)
-
-REST APIs · SOLID · Design Patterns · Dependency Injection · Agile
-
-</td>
-</tr>
-</table>
-
-<br>
-
-## Research Direction
-
-`Digital Twin Simulation Fidelity` · `Fleet Intelligence` · `Automotive AI` · `Predictive Vehicle Diagnostics` · `Predictive Maintenance` · `Edge AI` · `Real-Time Computer Vision` · `Intelligent Automotive Systems`
-
-<br>
-
-## Education
+## Education & Training
 
 **BSCS**, University of Lahore — CGPA 3.66/4.00, expected June 2027
+
 **Elements of AI**, University of Helsinki & MinnaLearn — July 2025
 
 <br>
 
-<div align="center">
+---
 
-### Get in Touch
+## Connect
 
 [![Email](https://img.shields.io/badge/harriskamal23@gmail.com-0d1117?style=flat-square&logo=gmail&logoColor=e6edf3)](mailto:harriskamal23@gmail.com)
 [![LinkedIn](https://img.shields.io/badge/hariskamalrana-0d1117?style=flat-square&logo=linkedin&logoColor=e6edf3)](https://www.linkedin.com/in/hariskamalrana)
 [![GitHub](https://img.shields.io/badge/harisrana--dev-0d1117?style=flat-square&logo=github&logoColor=e6edf3)](https://github.com/harisrana-dev)
 [![Portfolio](https://img.shields.io/badge/Portfolio-0d1117?style=flat-square&logo=vercel&logoColor=e6edf3)](https://harisrana-dev.vercel.app/)
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e2a3a,100:0d1117&height=100&section=footer" width="100%"/>
-
-</div>
