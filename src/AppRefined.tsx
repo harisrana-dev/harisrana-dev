@@ -1,5 +1,5 @@
 import { ArrowDownRight, ArrowUpRight, Code2, Download, Mail, Network, Phone } from 'lucide-react'
-import type { ComponentType } from 'react'
+import { useEffect, type ComponentType } from 'react'
 import { AboutSection } from './components/AboutSection'
 import { CaseStudy } from './components/CaseStudy'
 import { DriveVitalsVisual } from './components/DriveVitalsVisual'
@@ -31,6 +31,18 @@ function ProjectVisual({ kind }: { kind: ProjectVisualKind }) {
 }
 
 function AppRefined() {
+  // On initial mount, scroll to the hash target (e.g. #research). Browsers
+  // attempt fragment navigation before React renders, so the target element
+  // does not yet exist. Re-triggering the scroll after mount makes deep-links
+  // like /#research work reliably.
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1)
+      const target = document.getElementById(id)
+      if (target) target.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [])
+
   return <><a className="skip-link" href="#main">Skip to content</a><RevealObserver /><div id="top" /><HeaderRefined /><main id="main">
     <section className="hero shell"><div className="hero-meta eyebrow" data-reveal>Computer Science / AI / Automotive Systems</div><div className="hero-content" data-reveal><h1>Building intelligent systems<br />for the <em>physical world.</em></h1><div className="hero-bottom"><p>I build intelligent systems that connect artificial intelligence, real-time data, and physical machines — from vehicle telemetry and digital twins to computer vision and fleet intelligence.</p><div className="hero-actions"><a className="button button-dark" href="#work">Explore my work <ArrowDownRight size={17}/></a><a className="text-link" href="/Haris-Kamal-Rana-CV.pdf" download>View resume <Download size={15}/></a></div></div></div><HeroSystemVisual /></section>
     <section className="credibility shell"><div className="domain-list domain-list-four">{domains.map(d => <div className="domain" data-reveal key={d.number}><span>{d.number}</span><div><p>{d.label}</p><strong>{d.value}</strong></div></div>)}</div></section>
