@@ -215,7 +215,7 @@ export const projects: Project[] = [
     ],
     actions: [
       { kind: 'github', href: 'https://github.com/harisrana-dev/nexus' },
-      { kind: 'documentation', href: 'https://github.com/harisrana-dev/nexus/blob/main/docs/paper/phase3-ir-evaluation.md', label: 'Research paper' },
+      { kind: 'documentation', href: '/Empirical_Evaluation_of_Hybrid_Information_Retrieval_for_Local_Developer_Knowledge_Repositories.pdf', label: 'Research paper' },
       // TODO: add the case study URL here once published
       { kind: 'case-study', available: false },
     ],

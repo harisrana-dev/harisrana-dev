@@ -65,7 +65,7 @@ export function NexusResearchSection() {
         <div className="nrx-teaser-actions">
           <a
             className="nrx-toggle-btn"
-            href="/nexus-ir-paper.pdf"
+            href="/Empirical_Evaluation_of_Hybrid_Information_Retrieval_for_Local_Developer_Knowledge_Repositories.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
