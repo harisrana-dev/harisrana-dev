@@ -36,11 +36,16 @@ function AppRefined() {
   // does not yet exist. Re-triggering the scroll after mount makes deep-links
   // like /#research work reliably.
   useEffect(() => {
-    if (window.location.hash) {
-      const id = window.location.hash.slice(1)
+    if (!window.location.hash) return
+    const id = window.location.hash.slice(1)
+    // Use rAF to wait for the current paint so the target element is in the
+    // DOM and laid out before we ask the browser to scroll to it.
+    requestAnimationFrame(() => {
       const target = document.getElementById(id)
-      if (target) target.scrollIntoView({ behavior: 'smooth' })
-    }
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' })
+      }
+    })
   }, [])
 
   return <><a className="skip-link" href="#main">Skip to content</a><RevealObserver /><div id="top" /><HeaderRefined /><main id="main">

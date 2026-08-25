@@ -28,8 +28,7 @@ export function NexusResearchSection() {
     <section id="research" className="nrx-research shell">
       <SectionHeading
         label="04 / Research"
-        title="Empirical evaluation of hybrid information retrieval."
-        copy="An empirical study of retrieval strategies for local developer knowledge repositories — investigating semantic, lexical, RRF-fused, and graph-augmented retrieval under controlled evaluation."
+        title="Empirical Evaluation of Hybrid Information Retrieval"
       />
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -38,11 +37,12 @@ export function NexusResearchSection() {
       <div className="nrx-teaser" data-reveal>
         <div className="nrx-teaser-content">
           <p className="eyebrow">Nexus</p>
-          <h3>Empirical Evaluation of Hybrid Information Retrieval</h3>
           <p className="nrx-teaser-copy">
-            A reproducible evaluation of semantic, lexical, hybrid (RRF), and graph-augmented
-            retrieval on a 109-document technical corpus with 218 validated queries across six
-            categories — including controlled ablation studies and an honest negative result.
+            A reproducible empirical evaluation of semantic, lexical, hybrid (RRF), and graph-augmented
+            retrieval for local developer knowledge repositories. The study evaluates retrieval strategies
+            on a 109-document technical corpus with 218 queries across six categories, including controlled
+            ablation studies and an honestly reported negative result for graph augmentation under sparse,
+            navigational wikilink conditions.
           </p>
         </div>
         <div className="nrx-meta-grid">
